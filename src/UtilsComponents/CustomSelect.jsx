@@ -2,16 +2,24 @@ import { Select } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 function CustomSelect(props) {
-  const CustomSelectComp = styled(Select)(({ theme }) => ({
-    width: "50%",
-    marginTop: "2%",
-    marginBottom: "2%",
-    // label Color set to black
-  }));
+  const { defaultValue, value, setValue } = props;
+
   return (
-    <CustomSelectComp defaultValue={props.defaultValue}>
+    <Select
+      sx={{
+        width: "60%",
+        marginTop: "2%",
+        marginBottom: "2%",
+      }}
+      defaultValue={defaultValue}
+      value={value}
+      onChange={(e) => {
+        e.preventDefault();
+        setValue(e.target.value);
+      }}
+    >
       {props.children}
-    </CustomSelectComp>
+    </Select>
   );
 }
 

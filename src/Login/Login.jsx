@@ -7,11 +7,58 @@ import {
   TextField,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [formErrors, setFormErrors] = useState({
+    email: {
+      error: false,
+      message: "",
+    },
+    password: {
+      error: false,
+      message: "",
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // check if email is valid
+    if (!email.includes("@")) {
+      setFormErrors({
+        ...formErrors,
+        email: {
+          error: true,
+          message: "Email is not valid",
+        },
+      });
+      return;
+    }
+
+    if (
+      !password.match(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      )
+    ) {
+      setFormErrors({
+        ...formErrors,
+        email: { error: false, message: "" },
+        password: {
+          error: true,
+          message:
+            "Password must contain at least 8 characters and at least one number and one letter and one special character",
+        },
+      });
+      return;
+    }
+  };
   return (
     // Container with full page size
     <Grid container sx={{ height: "100vh", overflowY: "hidden", marginTop: 0 }}>
@@ -21,23 +68,42 @@ function Login() {
         sm={6}
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        <CenteredItem height="50%">
+        <CenteredItem
+          height="
+        40%"
+        >
           <h1>LOGIN</h1>
           <FormGroup
             sx={{
               alignContent: "center",
+              width: "100%",
             }}
           >
-            <CustomInput placeholder="Email" type="email" />
-            <CustomInput placeholder="Password" type="password" />
+            <CustomInput
+              placeholder="Email"
+              type="email"
+              value={email}
+              setValue={setEmail}
+              error={formErrors.email.error}
+              helperText={formErrors.email.message}
+            />
+            <CustomInput
+              placeholder="Password"
+              type="password"
+              value={password}
+              setValue={setPassword}
+              error={formErrors.password.error}
+              helperText={formErrors.password.message}
+            />
             <Button
               variant="contained"
               sx={{
-                width: "50%",
+                width: "60%",
                 marginTop: "2%",
                 backgroundColor: "#b61c4a",
                 ":hover": { backgroundColor: "#b61c4a" },
               }}
+              onClick={handleSubmit}
             >
               Login
             </Button>

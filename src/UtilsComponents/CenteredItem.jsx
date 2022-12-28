@@ -1,22 +1,24 @@
-import { Paper } from "@mui/material";
+import { MenuItem, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 function CenteredItem(props) {
-  const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: "#b61c4a",
-  }));
-
-  const CenterdItemGrid = styled(Item)(({ theme }) => ({
-    width: "60%",
-    height: props.height || "75%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  }));
-  return <CenterdItemGrid>{props.children}</CenterdItemGrid>;
+  return (
+    <Paper
+      sx={{
+        width: "60%",
+        height: props.height || "90%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding: "2%",
+        alignItems: "center",
+        textAlign: "center",
+        color: "#b61c4a",
+      }}
+    >
+      {props.children}
+    </Paper>
+  );
 }
 
 export default CenteredItem;
