@@ -9,12 +9,14 @@ import {
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../baseUrl";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [serverError, setServerError] = useState("");
 
   const [formErrors, setFormErrors] = useState({
     email: {
@@ -27,10 +29,7 @@ function Login() {
     },
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // check if email is valid
+  const validateErrors = () => {
     if (!email.includes("@")) {
       setFormErrors({
         ...formErrors,
@@ -39,7 +38,7 @@ function Login() {
           message: "Email is not valid",
         },
       });
-      return;
+      return false;
     }
 
     if (
@@ -56,7 +55,44 @@ function Login() {
             "Password must contain at least 8 characters and at least one number and one letter and one special character",
         },
       });
-      return;
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateErrors()) {
+      fetch(`${BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            setServerError(data.error);
+            return;
+          }
+          setServerError("");
+          let token = data.token;
+          let userid = data.user.id;
+          let role = data.user.role;
+
+          localStorage.setItem("token", token);
+          localStorage.setItem("userid", userid);
+          localStorage.setItem("role", role);
+        })
+        .catch((err) => {
+          console.log(err);
+          setServerError("Email or password is incorrect");
+        });
     }
   };
   return (
@@ -73,6 +109,7 @@ function Login() {
         40%"
         >
           <h1>LOGIN</h1>
+          <p>{serverError}</p>
           <FormGroup
             sx={{
               alignContent: "center",

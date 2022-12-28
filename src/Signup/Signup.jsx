@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../baseUrl";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 import CustomSelect from "../UtilsComponents/CustomSelect";
@@ -56,10 +58,9 @@ function Signup() {
     },
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [serverError, setServerError] = useState("");
 
-    // check if username is valid
+  const validateErrors = () => {
     if (username.length < 3) {
       setFormErrors({
         ...formErrors,
@@ -68,7 +69,7 @@ function Signup() {
           message: "Username must be at least 3 characters",
         },
       });
-      return;
+      return false;
     }
 
     // check if first name is valid
@@ -81,7 +82,7 @@ function Signup() {
           message: "First name must be at least 3 characters",
         },
       });
-      return;
+      return false;
     }
 
     // check if last name is valid
@@ -94,7 +95,7 @@ function Signup() {
           message: "Last name must be at least 3 characters",
         },
       });
-      return;
+      return false;
     }
 
     // check if email is valid
@@ -104,7 +105,7 @@ function Signup() {
         lastName: { error: false, message: "" },
         email: { error: true, message: "Invalid email" },
       });
-      return;
+      return false;
     }
 
     // check if password contains at least 8 characters and at least one number and one letter and one special character
@@ -122,8 +123,57 @@ function Signup() {
             "Password must contain at least 8 characters and at least one number and one letter and one special character",
         },
       });
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //convert to DD/MM/YYYY
+    let date = new Date(dateOfBirth);
+    date = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    console.log(date);
+
+    if (validateErrors()) {
+      let data = {
+        user_name: username,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password: password,
+        gender: gender,
+        birth_date: date,
+        role: role,
+        nationality: nationalty,
+      };
+      // send data to server using axios with headers
+      fetch(`${BASE_URL}/signup`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            setServerError(data.error);
+            return;
+          }
+          setServerError("");
+          let token = data.token;
+          let userid = data.user.id;
+          let role = data.user.role;
+          localStorage.setItem("token", token);
+          localStorage.setItem("userid", userid);
+          localStorage.setItem("role", role);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    // check if username is valid
   };
 
   useEffect(() => {
@@ -140,6 +190,7 @@ function Signup() {
       >
         <CenteredItem>
           <h1>SIGNUP</h1>
+          <p>{serverError}</p>
           <FormGroup
             sx={{
               alignContent: "center",
