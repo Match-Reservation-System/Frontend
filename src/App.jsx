@@ -1,9 +1,9 @@
 // import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./HomePage/HomePage";
 import Login from "./Login/Login";
 import Signup from "./Signup/Signup";
-
-function App() {
+const App = () => {
   const router = createBrowserRouter([
     {
       path: "/login",
@@ -13,8 +13,16 @@ function App() {
       path: "/signup",
       element: <Signup />,
     },
+    {
+      path: "/",
+      element: <Login />,
+    },
+    {
+      path: "homepage",
+      element: <HomePage />,
+    },
   ]);
   return <RouterProvider router={router}></RouterProvider>;
-}
+};
 
 export default App;

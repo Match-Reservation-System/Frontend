@@ -1,4 +1,4 @@
-let colors = {
+let ourColors = {
   primary: "#8a1538",
   primary10: " #b61c4a",
   primary30: "#e5537f",
@@ -8,4 +8,4 @@ let colors = {
   accent: "#00cfb7",
   background: "#eeeee4",
 };
-export default colors;
+export default ourColors;

@@ -1,7 +1,7 @@
 import { MenuItem, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-function CenteredItem(props) {
+const CenteredItem = (props) => {
   return (
     <Paper
       sx={{
@@ -19,6 +19,6 @@ function CenteredItem(props) {
       {props.children}
     </Paper>
   );
-}
+};
 
 export default CenteredItem;
