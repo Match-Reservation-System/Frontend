@@ -1,15 +1,9 @@
-import {
-  Button,
-  FormGroup,
-  Grid,
-  Input,
-  Paper,
-  TextField,
-} from "@mui/material";
+import { Button, FormGroup, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 
@@ -17,6 +11,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const [formErrors, setFormErrors] = useState({
     email: {
@@ -95,8 +90,16 @@ function Login() {
         });
     }
   };
-  return (
-    // Container with full page size
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <Grid container sx={{ height: "100vh", overflowY: "hidden", marginTop: 0 }}>
       <Grid
         item

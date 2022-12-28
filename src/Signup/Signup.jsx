@@ -20,6 +20,7 @@ import CustomInput from "../UtilsComponents/CustomeInput";
 import CustomSelect from "../UtilsComponents/CustomSelect";
 import nationalties from "./nationalties";
 import colors from "../UtilsComponents/colors";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 function Signup() {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -59,6 +60,7 @@ function Signup() {
   });
 
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const validateErrors = () => {
     if (username.length < 3) {
@@ -177,10 +179,14 @@ function Signup() {
   };
 
   useEffect(() => {
-    console.log(formErrors);
-  }, [formErrors]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
-  return (
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <Grid container sx={{ height: "100vh", overflowY: "hidden", marginTop: 0 }}>
       <Grid
         item

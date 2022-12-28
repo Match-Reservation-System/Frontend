@@ -1,10 +1,15 @@
 // import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { LazyLoading } from "./LazyLoading/LazyLoading";
 import Login from "./Login/Login";
 import Signup from "./Signup/Signup";
 
 function App() {
   const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <LazyLoading />,
+    },
     {
       path: "/login",
       element: <Login />,
