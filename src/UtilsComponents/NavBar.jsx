@@ -39,6 +39,7 @@ function NavBar() {
       position="static"
       sx={{
         backgroundColor: ourColors.background,
+        width: "100%",
       }}
     >
       <Container maxWidth="xl">
@@ -66,6 +67,7 @@ function NavBar() {
                 display: { xs: "none", md: "flex" },
                 width: "100%",
                 margin: "auto",
+                justifyContent: "space-evenly",
               }}
             >
               {pages.map((page) => (
@@ -77,6 +79,9 @@ function NavBar() {
                     color: ourColors.primary,
                     fontSize: "1.2rem",
                     fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#dce1e1",
+                    },
                   }}
                 >
                   {page}
@@ -84,12 +89,11 @@ function NavBar() {
               ))}
             </Box>
           </ToolbarGroup>
-
           <ToolbarGroup lastChild={true} float="right">
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="./src/assets/avatar.png" />
+                  <Avatar alt="avatar" src="./src/assets/avatar.png" />
                 </IconButton>
               </Tooltip>
               <Menu
