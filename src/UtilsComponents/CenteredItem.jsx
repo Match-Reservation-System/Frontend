@@ -14,6 +14,7 @@ const CenteredItem = (props) => {
         alignItems: "center",
         textAlign: "center",
         color: "#b61c4a",
+        ...props.style,
       }}
     >
       {props.children}

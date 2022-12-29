@@ -19,6 +19,7 @@ import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 import CustomSelect from "../UtilsComponents/CustomSelect";
 import nationalties from "../UtilsComponents/nationalties";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 import ourColors from "../UtilsComponents/ourColors";
 function Signup() {
   const [username, setUsername] = useState("");
@@ -59,6 +60,7 @@ function Signup() {
   });
 
   const [serverError, setServerError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const validateErrors = () => {
     if (username.length < 3) {
@@ -169,6 +171,7 @@ function Signup() {
           localStorage.setItem("token", token);
           localStorage.setItem("userid", userid);
           localStorage.setItem("role", role);
+          window.location.href = "/login";
         })
         .catch((err) => console.log(err));
     }
@@ -177,10 +180,14 @@ function Signup() {
   };
 
   useEffect(() => {
-    console.log(formErrors);
-  }, [formErrors]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
-  return (
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <Grid container sx={{ height: "100vh", overflowY: "hidden", marginTop: 0 }}>
       <Grid
         item
@@ -266,7 +273,7 @@ function Signup() {
             >
               <MenuItem value="role">Role</MenuItem>
               <MenuItem value="manager">Manager</MenuItem>
-              <MenuItem value="customer">Customer</MenuItem>
+              <MenuItem value="fan">Fan</MenuItem>
             </CustomSelect>
             <CustomSelect
               sx={{

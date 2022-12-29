@@ -26,6 +26,7 @@ const CustomInput = (props) => {
             border: "1px solid #b61c4a !important",
           },
         },
+        ...props.style,
       }}
       placeholder={placeholder}
       value={value}
