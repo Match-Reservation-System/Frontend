@@ -13,9 +13,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ourColors from "./ourColors";
 const pages = ["Home", "Account", "Matches"];
-const settings = ["Logout"];
+const settings = ["Account", "Logout"];
+import { useNavigate } from "react-router-dom";
 
-function NavBar() {
+const NavBar = () => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -26,11 +28,7 @@ function NavBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (option) => {
     setAnchorElUser(null);
   };
 
@@ -73,7 +71,7 @@ function NavBar() {
               {pages.map((page) => (
                 <Button
                   key={page}
-                  onClick={handleCloseNavMenu}
+                  onClick={() => navigate(`/${page.toLowerCase()}`)}
                   sx={{
                     my: 2,
                     color: ourColors.primary,
@@ -113,7 +111,10 @@ function NavBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => navigate(`/${setting.toLowerCase()}`)}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
@@ -124,5 +125,5 @@ function NavBar() {
       </Container>
     </AppBar>
   );
-}
+};
 export default NavBar;

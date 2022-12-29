@@ -18,7 +18,7 @@ import { BASE_URL } from "../baseUrl";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 import CustomSelect from "../UtilsComponents/CustomSelect";
-import nationalties from "./nationalties";
+import nationalties from "../UtilsComponents/nationalties";
 import ourColors from "../UtilsComponents/ourColors";
 function Signup() {
   const [username, setUsername] = useState("");
