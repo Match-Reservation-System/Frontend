@@ -1,7 +1,7 @@
 import { Button, Grid, MenuItem, TextField } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../../baseUrl";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
@@ -10,7 +10,7 @@ import NavBar from "../../UtilsComponents/NavBar";
 import ourColors from "../../UtilsComponents/ourColors";
 import { Teams } from "./Teams";
 
-export const CreateMatch = () => {
+export const CreateMatch = (props) => {
   const [firstTeam, setFirstTeam] = useState("null");
   const [secondTeam, setSecondTeam] = useState("null");
   const [venue, setVenue] = useState("Stadium");
@@ -20,6 +20,8 @@ export const CreateMatch = () => {
   const [Linesman2, setLinesman2] = useState("Linesman2");
   const [price, setPrice] = useState(0);
   const [formErrors, setFormErrors] = useState("");
+
+  const { matchId } = props;
 
   const validateErrors = () => {
     if (firstTeam === "null" || secondTeam === "null") {
@@ -50,6 +52,24 @@ export const CreateMatch = () => {
       setFormErrors("Please select date");
       return false;
     }
+
+    let isoDate = new Date(date).toISOString();
+    let todayDate = new Date().toISOString();
+    // get difference between dates in days
+    let diff = (new Date(isoDate) - new Date(todayDate)) / (1000 * 3600 * 24);
+    if (diff < 1) {
+      setFormErrors("Please select a valid [future] date");
+      return false;
+    }
+    let hour = new Date(date).getHours();
+    let minutes = new Date(date).getMinutes();
+    console.log(hour, minutes);
+    if (hour < 8 || hour > 20 || (hour === 20 && minutes > 0)) {
+      setFormErrors("Please select a valid time [8:00AM - 08:00PM] ");
+      return false;
+    }
+    setDate(date.replace("T", " "));
+
     setFormErrors("");
 
     return true;
@@ -91,6 +111,43 @@ export const CreateMatch = () => {
       //   window.location.href = "/manager/matches";
     }
   };
+
+  useEffect(() => {
+    if (matchId != "" || matchId != null || matchId != undefined) {
+      const token = localStorage.getItem("token");
+      const getMatch = async () => {
+        try {
+          let res = await fetch(`${BASE_URL}/manager/match/${matchId}`, {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          res = await res.json();
+          console.log(res);
+          if (res.error) {
+            setFormErrors(res.error);
+            return;
+          }
+          setFirstTeam(res.home_team);
+          setSecondTeam(res.away_team);
+          setVenue(res.stadium_id);
+          setDate(res.date);
+          setReferee(res.main_referee);
+          setLinesman1(res.first_line_referee);
+          setLinesman2(res.second_line_referee);
+          setPrice(res.ticket_price);
+        } catch (error) {
+          console.log(error);
+          // setFormErrors(error);
+        }
+      };
+      getMatch();
+    }
+  }, [matchId]);
+
   return (
     <>
       <NavBar />
@@ -237,7 +294,11 @@ export const CreateMatch = () => {
                     marginRight: "10px",
                   }}
                 />
-                <CustomInput type="date" value={date} setValue={setDate} />
+                <CustomInput
+                  type="datetime-local"
+                  value={date}
+                  setValue={setDate}
+                />
               </Grid>
 
               <Grid
