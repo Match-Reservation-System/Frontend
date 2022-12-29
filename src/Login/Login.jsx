@@ -1,7 +1,7 @@
 import { Button, FormGroup, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import { LazyLoading } from "../LazyLoading/LazyLoading";
 import CenteredItem from "../UtilsComponents/CenteredItem";
@@ -12,6 +12,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(true);
+  let navigate = useNavigate();
 
   const [formErrors, setFormErrors] = useState({
     email: {
@@ -83,7 +84,7 @@ function Login() {
           localStorage.setItem("token", token);
           localStorage.setItem("userid", userid);
           localStorage.setItem("role", role);
-          window.location.href = "/";
+          navigate("/");
         })
         .catch((err) => {
           console.log(err);
@@ -93,6 +94,10 @@ function Login() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && token != "undefined") {
+      navigate("/");
+    }
     setTimeout(() => {
       setLoading(false);
     }, 1000);

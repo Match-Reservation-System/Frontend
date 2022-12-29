@@ -9,7 +9,7 @@ import { Admin } from "./Admin/AdminPage";
 import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
 const App = () => {
-  const token = localStorage.getItem("token");
+ 
   const router = createBrowserRouter(
     [
       {
@@ -22,11 +22,11 @@ const App = () => {
       },
       {
         path: "/login",
-        element: token ? <HomePage /> : <Login />,
+        element: <Login />,
       },
       {
         path: "/signup",
-        element: token ? <HomePage /> : <Signup />,
+        element: <Signup />,
       },
       {
         path: "/admin/managers",

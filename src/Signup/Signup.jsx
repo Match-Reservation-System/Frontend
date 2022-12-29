@@ -13,7 +13,7 @@ import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../baseUrl";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
@@ -171,7 +171,7 @@ function Signup() {
           localStorage.setItem("token", token);
           localStorage.setItem("userid", userid);
           localStorage.setItem("role", role);
-          window.location.href = "/login";
+          navigate("/");
         })
         .catch((err) => console.log(err));
     }
@@ -179,7 +179,12 @@ function Signup() {
     // check if username is valid
   };
 
+  let navigate = useNavigate();
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token&&token!='undefined') {
+      navigate("/");
+    }
     setTimeout(() => {
       setLoading(false);
     }, 1000);
