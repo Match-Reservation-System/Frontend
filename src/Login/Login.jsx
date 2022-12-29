@@ -83,6 +83,7 @@ function Login() {
           localStorage.setItem("token", token);
           localStorage.setItem("userid", userid);
           localStorage.setItem("role", role);
+          window.location.href = "/";
         })
         .catch((err) => {
           console.log(err);

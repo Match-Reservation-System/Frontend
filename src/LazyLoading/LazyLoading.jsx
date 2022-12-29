@@ -1,6 +1,7 @@
 import "./LazyLoading.css";
+import path from "path";
 
-export const LazyLoading = () => {
+export const LazyLoading = ({ loadingPath }) => {
   return (
     <div
       style={{
@@ -12,7 +13,7 @@ export const LazyLoading = () => {
       }}
     >
       <img
-        src="src\assets\football.svg"
+        src={loadingPath || "src/assets/football.svg"}
         alt="loading"
         width="100px"
         height="100px"

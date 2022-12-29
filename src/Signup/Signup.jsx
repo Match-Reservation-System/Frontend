@@ -19,8 +19,8 @@ import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
 import CustomSelect from "../UtilsComponents/CustomSelect";
 import nationalties from "./nationalties";
-import colors from "../UtilsComponents/colors";
 import { LazyLoading } from "../LazyLoading/LazyLoading";
+import ourColors from "../UtilsComponents/ourColors";
 function Signup() {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -171,6 +171,7 @@ function Signup() {
           localStorage.setItem("token", token);
           localStorage.setItem("userid", userid);
           localStorage.setItem("role", role);
+          window.location.href = "/login";
         })
         .catch((err) => console.log(err));
     }
@@ -272,7 +273,7 @@ function Signup() {
             >
               <MenuItem value="role">Role</MenuItem>
               <MenuItem value="manager">Manager</MenuItem>
-              <MenuItem value="customer">Customer</MenuItem>
+              <MenuItem value="fan">Fan</MenuItem>
             </CustomSelect>
             <CustomSelect
               sx={{
@@ -296,8 +297,8 @@ function Signup() {
               sx={{
                 width: "60%",
                 marginTop: "2%",
-                backgroundColor: colors.primary10,
-                ":hover": { backgroundColor: colors.primary10 },
+                backgroundColor: ourColors.primary10,
+                ":hover": { backgroundColor: ourColors.primary10 },
               }}
               onClick={(e) => handleSubmit(e)}
             >

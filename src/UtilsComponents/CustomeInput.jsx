@@ -1,7 +1,7 @@
 import { Input, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-function CustomInput(props) {
+const CustomInput = (props) => {
   const { placeholder, value, setValue, type, error, helperText } = props;
 
   return (
@@ -26,6 +26,7 @@ function CustomInput(props) {
             border: "1px solid #b61c4a !important",
           },
         },
+        ...props.style,
       }}
       placeholder={placeholder}
       value={value}
@@ -35,6 +36,6 @@ function CustomInput(props) {
       helperText={helperText}
     />
   );
-}
+};
 
 export default CustomInput;

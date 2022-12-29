@@ -1,7 +1,7 @@
 import { Select } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-function CustomSelect(props) {
+const CustomSelect = (props) => {
   const { defaultValue, value, setValue } = props;
 
   return (
@@ -21,6 +21,6 @@ function CustomSelect(props) {
       {props.children}
     </Select>
   );
-}
+};
 
 export default CustomSelect;

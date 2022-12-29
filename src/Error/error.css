@@ -1,0 +1,12 @@
+.next {
+  /*make object rotate 360 degrees infinitely*/
+  animation: rotation 2s linear infinite;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(-45deg);
+  }
+  to {
+    transform: rotate(45deg);
+  }
+}
