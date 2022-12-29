@@ -2,6 +2,7 @@ import { Button, Grid, MenuItem, TextField } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { BASE_URL } from "../../baseUrl";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
@@ -13,41 +14,70 @@ import { Teams } from "./Teams";
 export const CreateMatch = (props) => {
   const [firstTeam, setFirstTeam] = useState("null");
   const [secondTeam, setSecondTeam] = useState("null");
-  const [venue, setVenue] = useState("Stadium");
+  const [venue, setVenue] = useState("null");
+  const [venues, setVenues] = useState([
+    {
+      name: "Cairo Stadium",
+      id: 1,
+      city: "Cairo",
+    },
+    {
+      name: "Alexandria Stadium",
+      id: 2,
+      city: "Alexandria",
+    },
+    {
+      name: "Giza Stadium",
+      id: 3,
+      city: "Giza",
+    },
+    {
+      name: "Shubra Stadium",
+      id: 4,
+      city: "Shubra",
+    },
+  ]);
   const [date, setDate] = useState("");
-  const [referee, setReferee] = useState("Referee");
-  const [Linesman1, setLinesman1] = useState("Linesman1");
-  const [Linesman2, setLinesman2] = useState("Linesman2");
-  const [price, setPrice] = useState(0);
+  const [referee, setReferee] = useState("");
+  const [Linesman1, setLinesman1] = useState("");
+  const [Linesman2, setLinesman2] = useState("");
+  const [price, setPrice] = useState("");
   const [formErrors, setFormErrors] = useState("");
 
-  const { matchId } = props;
+  // get url params
+  const { id: matchId } = useParams();
 
   const validateErrors = () => {
     if (firstTeam === "null" || secondTeam === "null") {
       setFormErrors("Please select teams");
       return false;
     }
-    if (venue === "Stadium") {
+    if (venue === "null") {
       setFormErrors("Please select venue");
       return false;
     }
-    if (referee === "Referee") {
+    if (referee === "") {
       setFormErrors("Please select referee");
       return false;
     }
-    if (Linesman1 === "Linesman1") {
+    if (Linesman1 === "") {
       setFormErrors("Please select Linesman1");
       return false;
     }
-    if (Linesman2 === "Linesman2") {
+    if (Linesman2 === "") {
       setFormErrors("Please select Linesman2");
       return false;
     }
-    if (price === 0) {
+    if (price === "") {
       setFormErrors("Please select price");
       return false;
     }
+
+    if (price <= 0) {
+      setFormErrors("Please select valid price");
+      return false;
+    }
+
     if (date === "") {
       setFormErrors("Please select date");
       return false;
@@ -80,14 +110,14 @@ export const CreateMatch = (props) => {
     if (validateErrors()) {
       try {
         let res = await fetch(`${BASE_URL}/manager/match`, {
-          method: "POST",
+          method: matchId ? "PUT" : "POST",
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            stadium_id: 1,
+            stadium_id: venue,
             main_referee: referee,
             first_line_referee: Linesman1,
             second_line_referee: Linesman2,
@@ -111,6 +141,31 @@ export const CreateMatch = (props) => {
       //   window.location.href = "/manager/matches";
     }
   };
+
+  useEffect(() => {
+    const getStadiums = async () => {
+      try {
+        let res = await fetch(`${BASE_URL}/manager/stadiums`, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        res = await res.json();
+        console.log(res);
+        if (res.error) {
+          setFormErrors(res.error);
+          return;
+        }
+        setVenues(res.stadiums);
+      } catch (error) {
+        console.log(error);
+        setFormErrors(error);
+      }
+    };
+    // getStadiums();
+  }, []);
 
   useEffect(() => {
     if (matchId != "" || matchId != null || matchId != undefined) {
@@ -163,7 +218,7 @@ export const CreateMatch = (props) => {
               width: "100%",
             }}
           >
-            <h1>ADD NEW MATCH</h1>
+            <h1>{matchId ? "EDIT" : "ADD"} NEW MATCH</h1>
             <p
               style={{
                 color: ourColors.primary10,
@@ -185,7 +240,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/football-badge.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/football-badge.png"
+                      : "../src/assets/football-badge.png"
+                  }
                   alt="football"
                   style={{
                     width: "50px",
@@ -222,7 +281,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/club.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/club.png"
+                      : "../src/assets/club.png"
+                  }
                   alt="football"
                   style={{
                     width: "50px",
@@ -259,7 +322,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/stadium.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/stadium.png"
+                      : "../src/assets/stadium.png"
+                  }
                   alt="stadium"
                   style={{
                     width: "50px",
@@ -267,11 +334,16 @@ export const CreateMatch = (props) => {
                     marginRight: "10px",
                   }}
                 />
-                <CustomInput
-                  placeholder="Venue"
-                  value={venue}
-                  setValue={setVenue}
-                />
+                <CustomSelect value={venue} setValue={setVenue}>
+                  <MenuItem value="null">Stadium</MenuItem>
+                  {venues.map((stadium, index) => {
+                    return (
+                      <MenuItem key={index} value={stadium.id}>
+                        {stadium.name} - {stadium.city}
+                      </MenuItem>
+                    );
+                  })}
+                </CustomSelect>
               </Grid>
 
               <Grid
@@ -286,7 +358,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/timetable.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/timetable.png"
+                      : "../src/assets/timetable.png"
+                  }
                   alt="timetable"
                   style={{
                     width: "50px",
@@ -313,7 +389,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/refree.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/refree.png"
+                      : "../src/assets/refree.png"
+                  }
                   alt="refree"
                   style={{
                     width: "50px",
@@ -321,7 +401,11 @@ export const CreateMatch = (props) => {
                     marginRight: "10px",
                   }}
                 />
-                <CustomInput value={referee} setValue={setReferee} />
+                <CustomInput
+                  placeholder="Refree"
+                  value={referee}
+                  setValue={setReferee}
+                />
               </Grid>
               <Grid
                 item
@@ -335,7 +419,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/lineman.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/lineman.png"
+                      : "../src/assets/lineman.png"
+                  }
                   alt="lineman"
                   style={{
                     width: "50px",
@@ -343,7 +431,11 @@ export const CreateMatch = (props) => {
                     marginRight: "10px",
                   }}
                 />
-                <CustomInput value={Linesman1} setValue={setLinesman1} />
+                <CustomInput
+                  placeholder="Linesman1"
+                  value={Linesman1}
+                  setValue={setLinesman1}
+                />
               </Grid>
               <Grid
                 item
@@ -357,7 +449,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/lineman.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/lineman.png"
+                      : "../src/assets/lineman.png"
+                  }
                   alt="lineman"
                   style={{
                     width: "50px",
@@ -365,7 +461,11 @@ export const CreateMatch = (props) => {
                     marginRight: "10px",
                   }}
                 />
-                <CustomInput value={Linesman2} setValue={setLinesman2} />
+                <CustomInput
+                  placeholder="Linesman2"
+                  value={Linesman2}
+                  setValue={setLinesman2}
+                />
               </Grid>
 
               <Grid
@@ -380,7 +480,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/price.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/price.png"
+                      : "../src/assets/price.png"
+                  }
                   alt="price"
                   style={{
                     width: "50px",
@@ -388,7 +492,11 @@ export const CreateMatch = (props) => {
                     marginRight: "10px",
                   }}
                 />
-                <CustomInput value={price} setValue={setPrice} />
+                <CustomInput
+                  placeholder="Price"
+                  value={price}
+                  setValue={setPrice}
+                />
               </Grid>
 
               <Grid
@@ -403,7 +511,11 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/add.png"
+                  src={
+                    matchId
+                      ? "../../src/assets/add.png"
+                      : "../src/assets/add.png"
+                  }
                   alt="add"
                   style={{
                     width: "50px",

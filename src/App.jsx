@@ -8,8 +8,8 @@ import UserAccount from "./UserAccount/UserAccount";
 import { Admin } from "./Admin/AdminPage";
 import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
+import { CreateStadium } from "./Manager/MatchCreate/CreateStadiums";
 const App = () => {
- 
   const router = createBrowserRouter(
     [
       {
@@ -49,6 +49,22 @@ const App = () => {
         element: (
           <ProtectedRoutes requestedRole="manager">
             <CreateMatch />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/matches/edit/:id",
+        element: (
+          <ProtectedRoutes requestedRole="manager">
+            <CreateMatch />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/stadiums",
+        element: (
+          <ProtectedRoutes requestedRole="manager">
+            <CreateStadium />
           </ProtectedRoutes>
         ),
       },
