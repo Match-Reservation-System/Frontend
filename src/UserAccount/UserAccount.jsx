@@ -4,9 +4,9 @@ import nationalties from "../UtilsComponents/nationalties";
 import MatchCard from "../UtilsComponents/MatchCard/MatchCard";
 import NavBar from "../UtilsComponents/NavBar";
 const fields = [
-  ["FName", "LName"],
+  ["First Name", "Last Name"],
   ["Username", "Email"],
-  ["Password", "BDate"],
+  ["Password", "Birth Date"],
 ];
 const checkSubmit = (user) => {
   if (user.Username.length < 3) {
@@ -29,9 +29,9 @@ const UserAccount = () => {
     Username: "ahmedkhalil",
     Email: "hogumif@zanoal.fm",
     Password: "123456",
-    FName: "Ahmed",
-    LName: "Khalil",
-    BDate: "25/12/1998",
+    "First Name": "Ahmed",
+    "Last Name": "Khalil",
+    "Birth Date": "25/12/1998",
     Gender: "Male",
     Role: "Manager",
     Nationality: "Egyptian",
@@ -46,172 +46,202 @@ const UserAccount = () => {
         gap: "50px",
       }}
     >
-      <NavBar />
-      <div
-        className="container d-flex flex-column justify-content-center"
-        style={{
-          backgroundImage: `url("../src/assets/1.jpg")`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-          width: "100vw",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div className="py-5 text-center">
-          <img
-            className="d-block mx-auto mb-4"
-            src="/src/assets/avatar.png"
-            width="72"
-            height="72"
-          />
-          <h2 style={{ color: ourColors.background }}>Account Settings</h2>
-        </div>
-        <div className="col-md-10">
-          <form
-            className="needs-validation"
-            onSubmit={(e) => {
-              e.preventDefault();
-              checkSubmit(user);
-            }}
-          >
-            {fields.map((field) => (
+      <section>
+        <NavBar />
+      </section>
+      <section>
+        <div
+          className="container d-flex flex-column justify-content-center"
+          style={{
+            backgroundImage: `url("../src/assets/1.jpg")`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            height: "100vh",
+            width: "100vw",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div className="py-5 text-center">
+            <img
+              className="d-block mx-auto mb-4"
+              src="/src/assets/avatar.png"
+              width="72"
+              height="72"
+            />
+            <h2 style={{ color: ourColors.background }}>Account Settings</h2>
+          </div>
+          <div className="col-md-10">
+            <form
+              className="needs-validation"
+              onSubmit={(e) => {
+                e.preventDefault();
+                checkSubmit(user);
+              }}
+            >
+              {fields.map((field) => (
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label
+                      for={field[0]}
+                      style={{ color: ourColors.background, fontSize: "20px" }}
+                    >
+                      {field[0]}
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="{field[0]}"
+                      value={user[field[0]]}
+                      onChange={(e) =>
+                        setUser({ ...user, [field[0]]: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label
+                      style={{ color: ourColors.background, fontSize: "20px" }}
+                      for={field[1]}
+                    >
+                      {field[1]}
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="{field[1]}"
+                      value={user[field[1]]}
+                      onChange={(e) =>
+                        setUser({ ...user, [field[1]]: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
               <div className="row">
                 <div className="col-md-6 mb-3">
-                  <label for={field[0]} style={{ color: ourColors.background }}>
-                    {field[0]}
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="{field[0]}"
-                    value={user[field[0]]}
-                    onChange={(e) =>
-                      setUser({ ...user, [field[0]]: e.target.value })
-                    }
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label style={{ color: ourColors.background }} for={field[1]}>
-                    {field[1]}
+                  <label
+                    style={{ color: ourColors.background, fontSize: "20px" }}
+                    for="Role"
+                  >
+                    Role
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="{field[1]}"
-                    value={user[field[1]]}
+                    value={user.Role}
                     onChange={(e) =>
                       setUser({ ...user, [field[1]]: e.target.value })
                     }
                   />
                 </div>
               </div>
-            ))}
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label style={{ color: ourColors.background }} for="Role">
-                  Role
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="{field[1]}"
-                  value={user.Role}
-                  onChange={(e) =>
-                    setUser({ ...user, [field[1]]: e.target.value })
-                  }
-                />
-              </div>
-            </div>
 
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label for="country" style={{ color: ourColors.background }}>
-                  Nationality
-                </label>
-                <select
-                  className="custom-select d-block w-100"
-                  id="country"
-                  required=""
-                  style={{
-                    display: "block !important",
-                    marginBottom: "25px",
-                    height: "36px",
-                  }}
-                  onChange={(e) =>
-                    setUser({ ...user, Nationality: e.target.value })
-                  }
-                >
-                  <option value="Afghan">Afghan</option>
-                  {nationalties.map((nationalty) => (
-                    <option value={nationalty.nationality}>
-                      {nationalty.nationality}
-                    </option>
-                  ))}
-                </select>
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label
+                    for="country"
+                    style={{ color: ourColors.background, fontSize: "20px" }}
+                  >
+                    Nationality
+                  </label>
+                  <select
+                    className="custom-select d-block w-100"
+                    id="country"
+                    required=""
+                    style={{
+                      display: "block !important",
+                      marginBottom: "25px",
+                      height: "36px",
+                    }}
+                    onChange={(e) =>
+                      setUser({ ...user, Nationality: e.target.value })
+                    }
+                  >
+                    <option value="Afghan">Afghan</option>
+                    {nationalties.map((nationalty) => (
+                      <option value={nationalty.nationality}>
+                        {nationalty.nationality}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label
+                    for="country"
+                    style={{ color: ourColors.background, fontSize: "20px" }}
+                  >
+                    Gender
+                  </label>
+                  <select
+                    className="custom-select d-block w-100"
+                    id="country"
+                    required=""
+                    style={{
+                      display: "block !important",
+                      marginBottom: "25px",
+                      height: "36px",
+                    }}
+                    onChange={(e) =>
+                      setUser({ ...user, Gender: e.target.value })
+                    }
+                  >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
               </div>
-              <div className="col-md-6 mb-3">
-                <label for="country" style={{ color: ourColors.background }}>
-                  Gender
-                </label>
-                <select
-                  className="custom-select d-block w-100"
-                  id="country"
-                  required=""
-                  style={{
-                    display: "block !important",
-                    marginBottom: "25px",
-                    height: "36px",
-                  }}
-                  onChange={(e) => setUser({ ...user, Gender: e.target.value })}
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-            </div>
-            <button
-              className="btn btn-lg btn-block"
-              type="submit"
-              style={{
-                width: "50%",
-                marginLeft: "25%",
-                backgroundColor: ourColors.primary,
-                color: "white",
-              }}
-            >
-              Save Changes
-            </button>
-          </form>
+              <button
+                className="btn btn-lg btn-block"
+                type="submit"
+                style={{
+                  width: "50%",
+                  marginLeft: "25%",
+                  backgroundColor: ourColors.primary,
+                  color: "white",
+                }}
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-      <div
-        className=" matches"
+      </section>
+      <h2
         style={{
-          width: "70%",
           margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(2, 0.5fr)",
-          gap: "40px",
         }}
       >
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-        <MatchCard />
-      </div>
+        Your Matches
+      </h2>
+      <section>
+        <div
+          className=" matches"
+          style={{
+            width: "60%",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "40px",
+          }}
+        >
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+          <MatchCard />
+        </div>
+      </section>
     </div>
   );
 };
