@@ -75,6 +75,8 @@ const App = () => {
             <CreateStadium />
           </ProtectedRoutes>
         ),
+      },
+      {
         path: "/matches",
         element: <Matches />,
       },

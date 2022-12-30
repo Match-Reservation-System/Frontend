@@ -2,7 +2,7 @@ import { Button, Grid, MenuItem, TextField } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { BASE_URL } from "../../baseUrl";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
@@ -22,7 +22,7 @@ export const CreateMatch = (props) => {
   const [Linesman2, setLinesman2] = useState("");
   const [price, setPrice] = useState("");
   const [formErrors, setFormErrors] = useState("");
-
+  let navigate = useNavigate();
   // get url params
   const { id: matchId } = useParams();
 
@@ -96,6 +96,7 @@ export const CreateMatch = (props) => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            id: matchId,
             stadium_id: venue,
             main_referee: referee,
             first_line_referee: Linesman1,
@@ -112,7 +113,8 @@ export const CreateMatch = (props) => {
           setFormErrors(res.error);
           return;
         }
-        setFormErrors("Match added successfully");
+        setFormErrors(`Match ${matchId ? "Edited" : "Added"} successfully`);
+        navigate("/matches");
       } catch (error) {
         setFormErrors(error);
       }
@@ -167,19 +169,23 @@ export const CreateMatch = (props) => {
             return;
           }
           let match = res.match;
-          setFirstTeam(match.home_team);
-          setSecondTeam(match.away_team);
-          setVenue(match.stadium_id);
-          setDate(match.date);
-          setReferee(match.main_referee);
-          setLinesman1(match.first_line_referee);
-          setLinesman2(match.second_line_referee);
-          setPrice(match.ticket_price);
+          setFirstTeam(match.home_team || "");
+          setSecondTeam(match.away_team || "");
+          setVenue(match.stadium_id || "null");
+          let convertedDate = new Date(match.date)
+            .toISOString()
+            .slice(0, 16)
+            .replace("T", " ");
+          setDate(convertedDate);
+          setReferee(match.main_referee || "");
+          setLinesman1(match.first_line_referee || "");
+          setLinesman2(match.second_line_referee || "");
+          setPrice(match.ticket_price || "");
         } catch (error) {
-          // setFormErrors(error);
+          setFormErrors(error);
         }
       };
-      getMatch();
+      matchId && getMatch();
     }
   }, [matchId]);
 

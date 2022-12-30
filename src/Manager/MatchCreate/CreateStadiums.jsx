@@ -49,6 +49,9 @@ export const CreateStadium = (props) => {
         return;
       }
       setFormErrors("Stadium added successfully");
+      setTimeout(() => {
+        setFormErrors("");
+      }, 2000);
     } catch (err) {
       console.log(err);
       setFormErrors("Something went wrong");
