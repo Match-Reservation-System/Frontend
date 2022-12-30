@@ -96,6 +96,7 @@ export const CreateMatch = (props) => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            id: matchId ? matchId : null,
             stadium_id: venue,
             main_referee: referee,
             first_line_referee: Linesman1,

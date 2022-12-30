@@ -9,7 +9,6 @@ import { Admin } from "./Admin/AdminPage";
 import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
 import { CreateStadium } from "./Manager/MatchCreate/CreateStadiums";
-import MatchCard from "./UtilsComponents/MatchCard/MatchCard";
 import { Error } from "./Error/Error";
 import Matches from "./Matches/Matches";
 import ReserveTicket from "./ReserveTicket/ReserveTicket";
@@ -18,6 +17,10 @@ const App = () => {
     [
       {
         path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/home",
         element: <HomePage />,
       },
       {
@@ -75,13 +78,10 @@ const App = () => {
             <CreateStadium />
           </ProtectedRoutes>
         ),
+      },
+      {
         path: "/matches",
         element: <Matches />,
-      },
-      // add errorElement to the route
-      {
-        path: "*",
-        element: <Error message="404 Page Not Found" />,
       },
       {
         path: "/matches/reserveTicket/:match_id",
@@ -90,6 +90,10 @@ const App = () => {
             <ReserveTicket />
           </ProtectedRoutes>
         ),
+      },
+      {
+        path: "*",
+        element: <Error message="404 Page Not Found" />,
       },
     ],
     {
