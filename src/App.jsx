@@ -8,6 +8,8 @@ import UserAccount from "./UserAccount/UserAccount";
 import { Admin } from "./Admin/AdminPage";
 import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
+import MatchCard from "./UtilsComponents/MatchCard/MatchCard";
+import Matches from "./Matches/Matches";
 const App = () => {
   const token = localStorage.getItem("token");
   const router = createBrowserRouter(
@@ -55,6 +57,10 @@ const App = () => {
             <CreateMatch />
           </ProtectedRoutes>
         ),
+      },
+      {
+        path: "/matches",
+        element: <Matches />,
       },
     ],
     {

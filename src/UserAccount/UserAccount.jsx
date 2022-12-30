@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ourColors from "../UtilsComponents/ourColors";
 import nationalties from "../UtilsComponents/nationalties";
-import MatchCard from "../UtilsComponents/MatchCard/MatchCard";
+import TicketCard from "../UtilsComponents/TicketCard/TicketCard";
 import NavBar from "../UtilsComponents/NavBar";
 import { BASE_URL } from "../baseUrl";
 
@@ -114,21 +114,17 @@ const UserAccount = () => {
     console.log("tickets", tickets);
   }, []);
   return (
-    <div className="full-page container-fluid">
-      <div className="nav-bar row">
+    <div
+      className="full-page container-fluid"
+      style={{
+        backgroundImage: `url("../src/assets/6.png")`,
+        height: "100vh",
+      }}
+    >
+      <div className="nav-bar row mb-5">
         <NavBar />
       </div>
-      <div
-        className=" form-section-with-bg row d-flex flex-column justify-content-center align-items-center"
-        style={{
-          backgroundImage: `url("../src/assets/1.jpg")`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-          width: "100vw",
-        }}
-      >
+      <div className=" form-section-with-bg row d-flex flex-column justify-content-center align-items-center">
         <div className="img-and-txt text-center">
           <img
             className="d-block mx-auto mb-4"
@@ -257,49 +253,39 @@ const UserAccount = () => {
           </form>
         </div>
       </div>
-      <div
-        className="matches-section row"
-        style={{
-          backgroundImage: `url("../src/assets/6.png")`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100%",
-          width: "100vw",
-          paddingTop: "100px",
-        }}
-      >
-        <div className="img-and-txt text-center">
-          <h2 style={{ color: ourColors.background }}>Your Tickets</h2>
-          <img
-            className="d-block mx-auto mb-4"
-            src="/src/assets/tickets.png"
-            width="72"
-            height="72"
-          />
-        </div>
-        <div
-          className=" matches"
-          style={{
-            width: "70%",
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            rowGap: "50px",
-          }}
-        >
-          {tickets &&
-            tickets.map((ticket) => {
+      {tickets.length > 0 && (
+        <div className="matches-section row">
+          <div className="img-and-txt text-center">
+            <h2 style={{ color: ourColors.background }}>Your Tickets</h2>
+            <img
+              className="d-block mx-auto mb-4"
+              src="/src/assets/tickets.png"
+              width="72"
+              height="72"
+            />
+          </div>
+          <div
+            className=" matches"
+            style={{
+              width: "70%",
+              margin: "0 auto",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              rowGap: "50px",
+            }}
+          >
+            {tickets.map((ticket) => {
               return (
-                <MatchCard
+                <TicketCard
                   ticket={ticket}
                   setTickets={setTickets}
                   getUserTickets={getUserTickets}
                 />
               );
             })}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

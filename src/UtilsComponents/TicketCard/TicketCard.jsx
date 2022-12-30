@@ -1,21 +1,35 @@
 import { BASE_URL } from "../../baseUrl";
 import countries from "../countries";
-import "./MatchCard.css"; //TODO use stadium id to get the stadium name
+import "./TicketCard.css"; //TODO use stadium id to get the stadium name
 
-const reserveTicket = async () => {};
+const cancelTicket = async (
+  ticket_id,
+  token,
+  setTickets,
+  userId,
+  getUserTickets
+) => {
+  const res = await fetch(`${BASE_URL}/customer/fan/tickets/${ticket_id}`, {
+    method: "DELETE",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
 
-const MatchCard = ({ match }) => {
+  if (data.error) {
+    alert(data.error);
+  } else {
+    getUserTickets(userId, token).then((data) => setTickets(data));
+  }
+};
+
+const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("token");
-  const {
-    home_team,
-    away_team,
-    date,
-    stadium_id,
-    main_referee,
-    first_line_referee,
-    second_line_referee,
-  } = match;
+  const { home_team, away_team, date, stadium_id, ticket_id } = ticket;
   const first_code = countries
     .find((item) => item.name === home_team)
     .code.toLowerCase();
@@ -63,18 +77,6 @@ const MatchCard = ({ match }) => {
               <div className="match-Stadium">
                 Stadium: <strong>{stadium_id} </strong>
               </div>
-              <div className="match-Stadium">
-                Reserved Tickets: <strong>0 </strong>
-              </div>
-              <div className="match-Stadium">
-                Main referee: <strong>{main_referee} </strong>
-              </div>
-              <div className="match-Stadium">
-                First lines man: <strong>{first_line_referee} </strong>
-              </div>
-              <div className="match-Stadium">
-                Second lines man: <strong>{second_line_referee} </strong>
-              </div>
               <button
                 className="match-bet-place"
                 onClick={() =>
@@ -87,7 +89,7 @@ const MatchCard = ({ match }) => {
                   )
                 }
               >
-                Reserve Match Ticket
+                Cancel Match Ticket
               </button>
             </div>
           </div>
@@ -112,4 +114,4 @@ const MatchCard = ({ match }) => {
   );
 };
 
-export default MatchCard;
+export default TicketCard;

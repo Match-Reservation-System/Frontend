@@ -4,6 +4,16 @@
 *:before {
   box-sizing: border-box;
 }
+:root {
+  --color-text-primary: #1c2a38;
+  --color-text-secondary: #8a8f98;
+  --color-text-alert: #d72641;
+  --color-text-icon: #dbdade;
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #f3f5f9;
+  --color-bg-alert: #fdeaec;
+  --color-theme-primary: #623ce6;
+}
 button,
 input,
 select,
@@ -16,12 +26,17 @@ img {
 strong {
   font-weight: 600;
 }
-
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+}
 .match {
   background-color: var(--color-bg-primary);
   display: flex;
   flex-direction: column;
-  min-width: 100%;
+  min-width: 600px;
   border-radius: 10px;
   box-shadow: 0 0 2px 0 rgba(48, 48, 48, 0.1), 0 4px 4px 0 rgba(48, 48, 48, 0.1);
 }
@@ -115,8 +130,7 @@ strong {
 }
 .match-date,
 .match-referee {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 14px;
   color: var(--color-text-secondary);
 }
 .match-date strong,
@@ -186,5 +200,5 @@ strong {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60%;
+  width: 40%;
 }
