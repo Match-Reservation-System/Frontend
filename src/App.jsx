@@ -8,8 +8,8 @@ import UserAccount from "./UserAccount/UserAccount";
 import { Admin } from "./Admin/AdminPage";
 import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
-import MatchCard from "./UtilsComponents/MatchCard/MatchCard";
 import Matches from "./Matches/Matches";
+import ReserveTicket from "./ReserveTicket/ReserveTicket";
 const App = () => {
   const token = localStorage.getItem("token");
   const router = createBrowserRouter(
@@ -21,9 +21,9 @@ const App = () => {
       {
         path: "/account",
         element: (
-          // <ProtectedRoutes requestedRole="fan">
-          <UserAccount />
-          // </ProtectedRoutes>
+          <ProtectedRoutes requestedRole="fan">
+            <UserAccount />
+          </ProtectedRoutes>
         ),
       },
       {
@@ -61,6 +61,14 @@ const App = () => {
       {
         path: "/matches",
         element: <Matches />,
+      },
+      {
+        path: "/matches/reserveTicket/:match_id",
+        element: (
+          <ProtectedRoutes requestedRole="fan">
+            <ReserveTicket />
+          </ProtectedRoutes>
+        ),
       },
     ],
     {

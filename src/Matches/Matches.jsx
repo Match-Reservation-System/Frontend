@@ -3,7 +3,9 @@ import ourColors from "../UtilsComponents/ourColors";
 import MatchCard from "../UtilsComponents/MatchCard/MatchCard";
 import NavBar from "../UtilsComponents/NavBar";
 import { BASE_URL } from "../baseUrl";
-const dummyTicket = {
+//TODO fetch matches from the backend
+const dummyMatch = {
+  match_id: 1,
   home_team: "Egypt",
   away_team: "Qatar",
   date: "29/12/2022",
@@ -11,6 +13,7 @@ const dummyTicket = {
   main_referee: "Mohamed Salah",
   first_line_referee: "Mohamed Salah",
   second_line_referee: "Mohamed Salah",
+  free_seats: 1000,
 };
 const Matches = () => {
   return (
@@ -25,22 +28,22 @@ const Matches = () => {
       </div>
       <div className="row">
         <div className="col-12 mb-5">
-          <MatchCard match={dummyTicket} />
+          <MatchCard match={dummyMatch} />
         </div>
         <div className="col-12 mb-5">
-          <MatchCard match={dummyTicket} />
+          <MatchCard match={dummyMatch} />
         </div>
         <div className="col-12 mb-5">
-          <MatchCard match={dummyTicket} />
+          <MatchCard match={dummyMatch} />
         </div>
         <div className="col-12 mb-5">
-          <MatchCard match={dummyTicket} />
+          <MatchCard match={dummyMatch} />
         </div>
         <div className="col-12 mb-5">
-          <MatchCard match={dummyTicket} />
+          <MatchCard match={dummyMatch} />
         </div>
         <div className="col-12 mb-5">
-          <MatchCard match={dummyTicket} />
+          <MatchCard match={dummyMatch} />
         </div>
       </div>
     </div>

@@ -1,13 +1,23 @@
-import { BASE_URL } from "../../baseUrl";
+import { useNavigate } from "react-router";
 import countries from "../countries";
-import "./MatchCard.css"; //TODO use stadium id to get the stadium name
-
-const reserveTicket = async () => {};
-
+import "./MatchCard.css";
+//TODO use stadium id to get the stadium name
+const handleClick = (userType, match_id, navigate) => {
+  if (userType === "manager") {
+    navigate(`/matches/edit/${match_id}`);
+  }
+  if (userType === "fan") {
+    navigate(`/matches/reserveTicket/${match_id}`);
+  }
+};
 const MatchCard = ({ match }) => {
-  const userId = localStorage.getItem("userid");
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const userType =
+    localStorage.getItem("role") !== null
+      ? localStorage.getItem("role")
+      : "guest";
   const {
+    match_id,
     home_team,
     away_team,
     date,
@@ -15,6 +25,7 @@ const MatchCard = ({ match }) => {
     main_referee,
     first_line_referee,
     second_line_referee,
+    free_seats,
   } = match;
   const first_code = countries
     .find((item) => item.name === home_team)
@@ -64,7 +75,7 @@ const MatchCard = ({ match }) => {
                 Stadium: <strong>{stadium_id} </strong>
               </div>
               <div className="match-Stadium">
-                Reserved Tickets: <strong>0 </strong>
+                Free Seats: <strong>{free_seats} </strong>
               </div>
               <div className="match-Stadium">
                 Main referee: <strong>{main_referee} </strong>
@@ -75,20 +86,16 @@ const MatchCard = ({ match }) => {
               <div className="match-Stadium">
                 Second lines man: <strong>{second_line_referee} </strong>
               </div>
-              <button
-                className="match-bet-place"
-                onClick={() =>
-                  cancelTicket(
-                    ticket_id,
-                    token,
-                    setTickets,
-                    userId,
-                    getUserTickets
-                  )
-                }
-              >
-                Reserve Match Ticket
-              </button>
+              {userType !== "guest" ? (
+                <button
+                  className="match-bet-place"
+                  onClick={() => handleClick(userType, match_id, navigate)}
+                >
+                  {userType === "manager"
+                    ? "Edit Match Details"
+                    : "Reserve Ticket"}
+                </button>
+              ) : null}
             </div>
           </div>
           <div className="column">
