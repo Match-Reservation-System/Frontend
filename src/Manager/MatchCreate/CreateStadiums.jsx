@@ -1,5 +1,6 @@
 import { Button, Grid, MenuItem } from "@mui/material";
 import { useState } from "react";
+import { BASE_URL } from "../../baseUrl";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
 import CustomSelect from "../../UtilsComponents/CustomSelect";
@@ -14,19 +15,44 @@ export const CreateStadium = (props) => {
   const [seats, setSeats] = useState("");
   const [formErrors, setFormErrors] = useState("");
 
-  const addStadium = (e) => {
-    e.preventDefault();
-    if (name === "" || city === "null" || rows === "" || seats === "") {
-      setFormErrors("All fields are required");
-      return;
-    }
-    if (rows <= 0 || seats <= 0) {
-      setFormErrors("Rows and Seats must be positive numbers");
-      return;
-    }
-    setFormErrors("Stadium added successfully");
+  const addStadium = async (e) => {
+    try {
+      const token = localStorage.getItem("token");
+      e.preventDefault();
+      if (name === "" || city === "null" || rows === "" || seats === "") {
+        setFormErrors("All fields are required");
+        return;
+      }
+      if (rows <= 0 || seats <= 0) {
+        setFormErrors("Rows and Seats must be positive numbers");
+        return;
+      }
 
-    //send to server
+      //send to server
+      let res = await fetch(`${BASE_URL}/manager/stadium`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: name,
+          city: city,
+          rows: rows,
+          seats_per_row: seats,
+        }),
+      });
+      res = await res.json();
+      if (res.error) {
+        setFormErrors(res.error);
+        return;
+      }
+      setFormErrors("Stadium added successfully");
+    } catch (err) {
+      console.log(err);
+      setFormErrors("Something went wrong");
+    }
   };
 
   return (

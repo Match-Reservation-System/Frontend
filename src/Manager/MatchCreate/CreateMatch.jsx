@@ -15,28 +15,7 @@ export const CreateMatch = (props) => {
   const [firstTeam, setFirstTeam] = useState("null");
   const [secondTeam, setSecondTeam] = useState("null");
   const [venue, setVenue] = useState("null");
-  const [venues, setVenues] = useState([
-    {
-      name: "Cairo Stadium",
-      id: 1,
-      city: "Cairo",
-    },
-    {
-      name: "Alexandria Stadium",
-      id: 2,
-      city: "Alexandria",
-    },
-    {
-      name: "Giza Stadium",
-      id: 3,
-      city: "Giza",
-    },
-    {
-      name: "Shubra Stadium",
-      id: 4,
-      city: "Shubra",
-    },
-  ]);
+  const [venues, setVenues] = useState([]);
   const [date, setDate] = useState("");
   const [referee, setReferee] = useState("");
   const [Linesman1, setLinesman1] = useState("");
@@ -143,6 +122,7 @@ export const CreateMatch = (props) => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const getStadiums = async () => {
       try {
         let res = await fetch(`${BASE_URL}/manager/stadiums`, {
@@ -150,6 +130,7 @@ export const CreateMatch = (props) => {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
         res = await res.json();
@@ -164,7 +145,7 @@ export const CreateMatch = (props) => {
         setFormErrors(error);
       }
     };
-    // getStadiums();
+    getStadiums();
   }, []);
 
   useEffect(() => {
@@ -532,7 +513,7 @@ export const CreateMatch = (props) => {
                   }}
                   onClick={async (e) => await addMatch(e)}
                 >
-                  Add Match
+                  {matchId ? "Edit " : "Add "} Match
                 </Button>
               </Grid>
             </Grid>
