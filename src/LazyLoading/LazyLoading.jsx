@@ -14,7 +14,7 @@ export const LazyLoading = ({ loadingPath }) => {
     >
       <img
         src={loadingPath || "src/assets/football.svg"}
-        alt="loading"
+        alt=""
         width="100px"
         height="100px"
         className="loading"

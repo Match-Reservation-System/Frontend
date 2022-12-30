@@ -4,6 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { BASE_URL } from "../../baseUrl";
+import { LazyLoading } from "../../LazyLoading/LazyLoading";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
 import CustomSelect from "../../UtilsComponents/CustomSelect";
@@ -22,6 +23,7 @@ export const CreateMatch = (props) => {
   const [Linesman2, setLinesman2] = useState("");
   const [price, setPrice] = useState("");
   const [formErrors, setFormErrors] = useState("");
+  const [loading, setLoading] = useState(true);
   let navigate = useNavigate();
   // get url params
   const { id: matchId } = useParams();
@@ -88,6 +90,17 @@ export const CreateMatch = (props) => {
     const token = localStorage.getItem("token");
     if (validateErrors()) {
       try {
+        let data = {
+          stadium_id: venue,
+          main_referee: referee,
+          first_line_referee: Linesman1,
+          second_line_referee: Linesman2,
+          ticket_price: price,
+          home_team: firstTeam,
+          away_team: secondTeam,
+          date: date,
+        };
+        matchId && (data.id = matchId);
         let res = await fetch(`${BASE_URL}/manager/match`, {
           method: matchId ? "PUT" : "POST",
           mode: "cors",
@@ -95,17 +108,7 @@ export const CreateMatch = (props) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            id: matchId,
-            stadium_id: venue,
-            main_referee: referee,
-            first_line_referee: Linesman1,
-            second_line_referee: Linesman2,
-            ticket_price: price,
-            home_team: firstTeam,
-            away_team: secondTeam,
-            date: date,
-          }),
+          body: JSON.stringify(data),
         });
         res = await res.json();
 
@@ -189,7 +192,15 @@ export const CreateMatch = (props) => {
     }
   }, [matchId]);
 
-  return (
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading loadingPath="../../src/assets/football.svg" />
+  ) : (
     <>
       <NavBar />
       <Grid
@@ -197,6 +208,9 @@ export const CreateMatch = (props) => {
         justifyContent="center"
         alignItems="center"
         height={"100vh"}
+        style={{
+          backgroundImage: "url('../../src/assets/1.jpg')",
+        }}
       >
         <Grid item xs={12} sm={6}>
           <CenteredItem
