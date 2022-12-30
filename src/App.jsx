@@ -9,6 +9,9 @@ import { Admin } from "./Admin/AdminPage";
 import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
 import { CreateStadium } from "./Manager/MatchCreate/CreateStadiums";
+import MatchCard from "./UtilsComponents/MatchCard/MatchCard";
+import Matches from "./Matches/Matches";
+import { Error } from "./Error/Error";
 const App = () => {
   const router = createBrowserRouter(
     [
@@ -18,7 +21,11 @@ const App = () => {
       },
       {
         path: "/account",
-        element: <UserAccount />,
+        element: (
+          // <ProtectedRoutes requestedRole="fan">
+          <UserAccount />
+          // </ProtectedRoutes>
+        ),
       },
       {
         path: "/login",
@@ -67,6 +74,13 @@ const App = () => {
             <CreateStadium />
           </ProtectedRoutes>
         ),
+        path: "/matches",
+        element: <Matches />,
+      },
+      // add errorElement to the route
+      {
+        path: "*",
+        element: <Error message="404 Page Not Found" />,
       },
     ],
     {

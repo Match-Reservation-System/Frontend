@@ -87,7 +87,6 @@ function Login() {
           navigate("/");
         })
         .catch((err) => {
-          console.log(err);
           setServerError("Email or password is incorrect");
         });
     }

@@ -72,7 +72,7 @@ export const CreateMatch = (props) => {
     }
     let hour = new Date(date).getHours();
     let minutes = new Date(date).getMinutes();
-    console.log(hour, minutes);
+
     if (hour < 8 || hour > 20 || (hour === 20 && minutes > 0)) {
       setFormErrors("Please select a valid time [8:00AM - 08:00PM] ");
       return false;
@@ -107,14 +107,13 @@ export const CreateMatch = (props) => {
           }),
         });
         res = await res.json();
-        console.log(res);
+
         if (res.error) {
           setFormErrors(res.error);
           return;
         }
         setFormErrors("Match added successfully");
       } catch (error) {
-        console.log(error);
         setFormErrors(error);
       }
       //   window.location.href = "/manager/matches";
@@ -162,7 +161,7 @@ export const CreateMatch = (props) => {
             },
           });
           res = await res.json();
-          console.log(res);
+
           if (res.error) {
             setFormErrors(res.error);
             return;
@@ -176,7 +175,6 @@ export const CreateMatch = (props) => {
           setLinesman2(res.second_line_referee);
           setPrice(res.ticket_price);
         } catch (error) {
-          console.log(error);
           // setFormErrors(error);
         }
       };
