@@ -152,7 +152,7 @@ export const CreateMatch = (props) => {
       const token = localStorage.getItem("token");
       const getMatch = async () => {
         try {
-          let res = await fetch(`${BASE_URL}/manager/match/${matchId}`, {
+          let res = await fetch(`${BASE_URL}/guest/matches/${matchId}`, {
             method: "GET",
             mode: "cors",
             headers: {
@@ -166,14 +166,15 @@ export const CreateMatch = (props) => {
             setFormErrors(res.error);
             return;
           }
-          setFirstTeam(res.home_team);
-          setSecondTeam(res.away_team);
-          setVenue(res.stadium_id);
-          setDate(res.date);
-          setReferee(res.main_referee);
-          setLinesman1(res.first_line_referee);
-          setLinesman2(res.second_line_referee);
-          setPrice(res.ticket_price);
+          let match = res.match;
+          setFirstTeam(match.home_team);
+          setSecondTeam(match.away_team);
+          setVenue(match.stadium_id);
+          setDate(match.date);
+          setReferee(match.main_referee);
+          setLinesman1(match.first_line_referee);
+          setLinesman2(match.second_line_referee);
+          setPrice(match.ticket_price);
         } catch (error) {
           // setFormErrors(error);
         }
