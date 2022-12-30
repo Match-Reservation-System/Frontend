@@ -2,7 +2,7 @@ import { Error } from "../Error/Error";
 
 export const ProtectedRoutes = (props) => {
   let { requestedRole, children } = props;
-  console.log(children);
+
   let token = localStorage.getItem("token");
   let role = localStorage.getItem("role");
   if (!token) {

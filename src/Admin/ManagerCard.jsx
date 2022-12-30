@@ -30,7 +30,6 @@ export const ManagerCard = (props) => {
 
       setServerError("");
     } catch (err) {
-      console.log(err);
       setServerError("Something went wrong");
     }
   };
@@ -57,7 +56,6 @@ export const ManagerCard = (props) => {
       }
       setServerError("");
     } catch (err) {
-      console.log(err);
       setServerError("Something went wrong");
     }
   };

@@ -18,7 +18,11 @@ const App = () => {
       },
       {
         path: "/account",
-        element: <UserAccount />,
+        element: (
+          // <ProtectedRoutes requestedRole="fan">
+          <UserAccount />
+          // </ProtectedRoutes>
+        ),
       },
       {
         path: "/login",

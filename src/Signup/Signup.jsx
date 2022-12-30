@@ -135,7 +135,6 @@ function Signup() {
     //convert to DD/MM/YYYY
     let date = new Date(dateOfBirth);
     date = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    console.log(date);
 
     if (validateErrors()) {
       let data = {

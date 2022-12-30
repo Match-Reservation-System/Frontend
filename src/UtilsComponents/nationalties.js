@@ -160,5 +160,4 @@ let nationalities = [
   { nationalityID: 162, CountryCode: "YE", nationality: "Yemeni" },
   { nationalityID: 163, CountryCode: "ZM", nationality: "Zambian" },
 ];
-
 export default nationalities;

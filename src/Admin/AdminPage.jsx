@@ -22,7 +22,6 @@ export const Admin = ({ fetchUrl }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.error) {
             setLoading(false);
             setServerError(data.error);
@@ -36,13 +35,12 @@ export const Admin = ({ fetchUrl }) => {
         .catch((err) => {
           setLoading(false);
           setServerError("Something went wrong");
-          console.log(err);
+
           reject(err);
         });
     });
   };
   useEffect(() => {
-    console.log("useEffect");
     fetchData();
   }, [fetchUrl]);
 

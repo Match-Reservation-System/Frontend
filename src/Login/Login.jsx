@@ -86,7 +86,6 @@ function Login() {
           window.location.href = "/";
         })
         .catch((err) => {
-          console.log(err);
           setServerError("Email or password is incorrect");
         });
     }
