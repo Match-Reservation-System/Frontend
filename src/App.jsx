@@ -10,8 +10,9 @@ import { ProtectedRoutes } from "./UtilsComponents/ProtectedRoutes";
 import { CreateMatch } from "./Manager/MatchCreate/CreateMatch";
 import { CreateStadium } from "./Manager/MatchCreate/CreateStadiums";
 import MatchCard from "./UtilsComponents/MatchCard/MatchCard";
-import Matches from "./Matches/Matches";
 import { Error } from "./Error/Error";
+import Matches from "./Matches/Matches";
+import ReserveTicket from "./ReserveTicket/ReserveTicket";
 const App = () => {
   const router = createBrowserRouter(
     [
@@ -22,9 +23,9 @@ const App = () => {
       {
         path: "/account",
         element: (
-          // <ProtectedRoutes requestedRole="fan">
-          <UserAccount />
-          // </ProtectedRoutes>
+          <ProtectedRoutes requestedRole="fan">
+            <UserAccount />
+          </ProtectedRoutes>
         ),
       },
       {
@@ -81,6 +82,14 @@ const App = () => {
       {
         path: "*",
         element: <Error message="404 Page Not Found" />,
+      },
+      {
+        path: "/matches/reserveTicket/:match_id",
+        element: (
+          <ProtectedRoutes requestedRole="fan">
+            <ReserveTicket />
+          </ProtectedRoutes>
+        ),
       },
     ],
     {
