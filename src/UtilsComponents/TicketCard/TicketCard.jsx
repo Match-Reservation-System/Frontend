@@ -43,7 +43,7 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
       <div className="match">
         <div className="match-header">
           <div className="match-tournament">
-            <img src="/src/assets/world-cup.png" />
+            <img src="/world-cup.png" />
             Fifa World Cup 2022
           </div>
           <div className="match-actions"></div>

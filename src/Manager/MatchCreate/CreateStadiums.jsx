@@ -49,6 +49,9 @@ export const CreateStadium = (props) => {
         return;
       }
       setFormErrors("Stadium added successfully");
+      setTimeout(() => {
+        setFormErrors("");
+      }, 2000);
     } catch (err) {
       console.log(err);
       setFormErrors("Something went wrong");
@@ -92,7 +95,7 @@ export const CreateStadium = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/stadium.png"
+                  src="../stadium.png"
                   alt="stadium"
                   style={{
                     width: "50px",
@@ -119,7 +122,7 @@ export const CreateStadium = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/city.png"
+                  src="../city.png"
                   alt="city"
                   style={{
                     width: "50px",
@@ -151,7 +154,7 @@ export const CreateStadium = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/rows.png"
+                  src="../rows.png"
                   alt="rows"
                   style={{
                     width: "50px",
@@ -178,7 +181,7 @@ export const CreateStadium = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/seats.png"
+                  src="../seats.png"
                   alt="seats"
                   style={{
                     width: "50px",
@@ -205,7 +208,7 @@ export const CreateStadium = (props) => {
                 }}
               >
                 <img
-                  src="../src/assets/add.png"
+                  src="../add.png"
                   alt="add"
                   style={{
                     width: "50px",

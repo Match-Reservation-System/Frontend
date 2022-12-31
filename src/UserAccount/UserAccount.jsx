@@ -117,8 +117,7 @@ const UserAccount = () => {
     <div
       className="full-page container-fluid"
       style={{
-        backgroundImage: `url("../src/assets/6.png")`,
-        height: "100vh",
+        backgroundImage: `url("../6.png")`,
       }}
     >
       <div className="nav-bar row mb-5">
@@ -128,7 +127,7 @@ const UserAccount = () => {
         <div className="img-and-txt text-center">
           <img
             className="d-block mx-auto mb-4"
-            src="/src/assets/avatar.png"
+            src="/avatar.png"
             width="72"
             height="72"
           />
@@ -259,7 +258,7 @@ const UserAccount = () => {
             <h2 style={{ color: ourColors.background }}>Your Tickets</h2>
             <img
               className="d-block mx-auto mb-4"
-              src="/src/assets/tickets.png"
+              src="/tickets.png"
               width="72"
               height="72"
             />

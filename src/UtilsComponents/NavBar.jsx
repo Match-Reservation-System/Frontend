@@ -43,12 +43,7 @@ const NavBar = () => {
       <Container maxWidth="xl">
         <Toolbar>
           <ToolbarGroup firstChild={true} float="left">
-            <img
-              src="/src/assets/logo.png"
-              alt="logo"
-              width={130}
-              height={60}
-            />
+            <img src="/logo.png" alt="logo" width={130} height={60} />
           </ToolbarGroup>
 
           <ToolbarGroup
@@ -91,7 +86,7 @@ const NavBar = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="avatar" src="./src/assets/avatar.png" />
+                  <Avatar alt="avatar" src="./avatar.png" />
                 </IconButton>
               </Tooltip>
               <Menu

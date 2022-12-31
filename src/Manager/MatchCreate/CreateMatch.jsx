@@ -2,8 +2,9 @@ import { Button, Grid, MenuItem, TextField } from "@mui/material";
 import { LocalizationProvider, MobileDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { BASE_URL } from "../../baseUrl";
+import { LazyLoading } from "../../LazyLoading/LazyLoading";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
 import CustomSelect from "../../UtilsComponents/CustomSelect";
@@ -22,7 +23,8 @@ export const CreateMatch = (props) => {
   const [Linesman2, setLinesman2] = useState("");
   const [price, setPrice] = useState("");
   const [formErrors, setFormErrors] = useState("");
-
+  const [loading, setLoading] = useState(true);
+  let navigate = useNavigate();
   // get url params
   const { id: matchId } = useParams();
 
@@ -88,6 +90,17 @@ export const CreateMatch = (props) => {
     const token = localStorage.getItem("token");
     if (validateErrors()) {
       try {
+        let data = {
+          stadium_id: venue,
+          main_referee: referee,
+          first_line_referee: Linesman1,
+          second_line_referee: Linesman2,
+          ticket_price: price,
+          home_team: firstTeam,
+          away_team: secondTeam,
+          date: date,
+        };
+        matchId && (data.id = matchId);
         let res = await fetch(`${BASE_URL}/manager/match`, {
           method: matchId ? "PUT" : "POST",
           mode: "cors",
@@ -95,17 +108,7 @@ export const CreateMatch = (props) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            id: matchId ? matchId : null,
-            stadium_id: venue,
-            main_referee: referee,
-            first_line_referee: Linesman1,
-            second_line_referee: Linesman2,
-            ticket_price: price,
-            home_team: firstTeam,
-            away_team: secondTeam,
-            date: date,
-          }),
+          body: JSON.stringify(data),
         });
         res = await res.json();
 
@@ -113,7 +116,8 @@ export const CreateMatch = (props) => {
           setFormErrors(res.error);
           return;
         }
-        setFormErrors("Match added successfully");
+        setFormErrors(`Match ${matchId ? "Edited" : "Added"} successfully`);
+        navigate("/matches");
       } catch (error) {
         setFormErrors(error);
       }
@@ -168,23 +172,35 @@ export const CreateMatch = (props) => {
             return;
           }
           let match = res.match;
-          setFirstTeam(match.home_team);
-          setSecondTeam(match.away_team);
-          setVenue(match.stadium_id);
-          setDate(match.date);
-          setReferee(match.main_referee);
-          setLinesman1(match.first_line_referee);
-          setLinesman2(match.second_line_referee);
-          setPrice(match.ticket_price);
+          setFirstTeam(match.home_team || "");
+          setSecondTeam(match.away_team || "");
+          setVenue(match.stadium_id || "null");
+          let convertedDate = new Date(match.date)
+            .toISOString()
+            .slice(0, 16)
+            .replace("T", " ");
+          setDate(convertedDate);
+          setReferee(match.main_referee || "");
+          setLinesman1(match.first_line_referee || "");
+          setLinesman2(match.second_line_referee || "");
+          setPrice(match.ticket_price || "");
         } catch (error) {
-          // setFormErrors(error);
+          setFormErrors(error);
         }
       };
-      getMatch();
+      matchId && getMatch();
     }
   }, [matchId]);
 
-  return (
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading loadingPath="../../football.svg" />
+  ) : (
     <>
       <NavBar />
       <Grid
@@ -192,6 +208,9 @@ export const CreateMatch = (props) => {
         justifyContent="center"
         alignItems="center"
         height={"100vh"}
+        style={{
+          backgroundImage: "url('../../1.jpg')",
+        }}
       >
         <Grid item xs={12} sm={6}>
           <CenteredItem
@@ -223,8 +242,8 @@ export const CreateMatch = (props) => {
                 <img
                   src={
                     matchId
-                      ? "../../src/assets/football-badge.png"
-                      : "../src/assets/football-badge.png"
+                      ? "../../football-badge.png"
+                      : "../football-badge.png"
                   }
                   alt="football"
                   style={{
@@ -262,11 +281,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/club.png"
-                      : "../src/assets/club.png"
-                  }
+                  src={matchId ? "../../club.png" : "../club.png"}
                   alt="football"
                   style={{
                     width: "50px",
@@ -303,11 +318,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/stadium.png"
-                      : "../src/assets/stadium.png"
-                  }
+                  src={matchId ? "../../stadium.png" : "../stadium.png"}
                   alt="stadium"
                   style={{
                     width: "50px",
@@ -339,11 +350,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/timetable.png"
-                      : "../src/assets/timetable.png"
-                  }
+                  src={matchId ? "../../timetable.png" : "../timetable.png"}
                   alt="timetable"
                   style={{
                     width: "50px",
@@ -370,11 +377,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/refree.png"
-                      : "../src/assets/refree.png"
-                  }
+                  src={matchId ? "../../refree.png" : "../refree.png"}
                   alt="refree"
                   style={{
                     width: "50px",
@@ -400,11 +403,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/lineman.png"
-                      : "../src/assets/lineman.png"
-                  }
+                  src={matchId ? "../../lineman.png" : "../lineman.png"}
                   alt="lineman"
                   style={{
                     width: "50px",
@@ -430,11 +429,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/lineman.png"
-                      : "../src/assets/lineman.png"
-                  }
+                  src={matchId ? "../../lineman.png" : "../lineman.png"}
                   alt="lineman"
                   style={{
                     width: "50px",
@@ -461,11 +456,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/price.png"
-                      : "../src/assets/price.png"
-                  }
+                  src={matchId ? "../../price.png" : "../price.png"}
                   alt="price"
                   style={{
                     width: "50px",
@@ -492,11 +483,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/add.png"
-                      : "../src/assets/add.png"
-                  }
+                  src={matchId ? "../../add.png" : "../add.png"}
                   alt="add"
                   style={{
                     width: "50px",

@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { BASE_URL } from "../baseUrl";
 import ReservePreview from "../UtilsComponents/ReservePreview/ReservePreview";
 import NavBar from "../UtilsComponents/NavBar";
-import SeatsPicker from "./SeatsPicker/SeatsPicker";
-
 const getMatchById = async (id) => {
   const response = await fetch(`${BASE_URL}/guest/matches/${id}`, {
     method: "GET",
@@ -24,7 +22,7 @@ const ReserveTicket = () => {
     <div
       className="container-fluid"
       style={{
-        background: `url("../src/assets/1.jpg")`,
+        background: `url("../1.jpg")`,
         minHeight: "100vh",
       }}
     >
@@ -35,13 +33,6 @@ const ReserveTicket = () => {
         <div className="col-2 "></div>
         <div className="col-8 text-center">
           {match && <ReservePreview match={match} />}
-        </div>
-        <div className="col-2 "></div>
-      </div>
-      <div className="row">
-        <div className="col-2 "></div>
-        <div className="col-8">
-          <SeatsPicker rows={10} seatsPerRow={5} />
         </div>
         <div className="col-2 "></div>
       </div>
