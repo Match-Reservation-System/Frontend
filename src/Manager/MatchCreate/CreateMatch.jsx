@@ -117,7 +117,7 @@ export const CreateMatch = (props) => {
           return;
         }
         setFormErrors(`Match ${matchId ? "Edited" : "Added"} successfully`);
-        // navigate("/matches");
+        navigate("/matches");
       } catch (error) {
         setFormErrors(error);
       }
