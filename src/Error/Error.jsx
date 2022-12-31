@@ -20,7 +20,7 @@ export const Error = ({ message }) => {
           }}
         >
           <img
-            src="..\src\assets\warning.png"
+            src="../warning.png"
             alt="Signupbg"
             width="100px"
             height="100px"
@@ -49,7 +49,7 @@ export const Error = ({ message }) => {
             </Link>
           </Button>
           <img
-            src="..\src\assets\next.svg"
+            src="../next.svg"
             alt="next"
             width="40px"
             height="40px"

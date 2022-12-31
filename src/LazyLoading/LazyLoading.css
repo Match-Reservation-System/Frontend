@@ -1,6 +1,6 @@
 .loading {
   /*make object rotate 360 degrees infinitely*/
-  animation: rotation 5s linear infinite;
+  animation: rotation 1s linear infinite;
 }
 @keyframes rotation {
   from {

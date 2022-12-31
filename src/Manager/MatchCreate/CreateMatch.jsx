@@ -117,7 +117,7 @@ export const CreateMatch = (props) => {
           return;
         }
         setFormErrors(`Match ${matchId ? "Edited" : "Added"} successfully`);
-        navigate("/matches");
+        // navigate("/matches");
       } catch (error) {
         setFormErrors(error);
       }
@@ -199,7 +199,7 @@ export const CreateMatch = (props) => {
   }, []);
 
   return loading ? (
-    <LazyLoading loadingPath="../../src/assets/football.svg" />
+    <LazyLoading loadingPath="../../football.svg" />
   ) : (
     <>
       <NavBar />
@@ -209,7 +209,7 @@ export const CreateMatch = (props) => {
         alignItems="center"
         height={"100vh"}
         style={{
-          backgroundImage: "url('../../src/assets/1.jpg')",
+          backgroundImage: "url('../../1.jpg')",
         }}
       >
         <Grid item xs={12} sm={6}>
@@ -242,8 +242,8 @@ export const CreateMatch = (props) => {
                 <img
                   src={
                     matchId
-                      ? "../../src/assets/football-badge.png"
-                      : "../src/assets/football-badge.png"
+                      ? "../../football-badge.png"
+                      : "../football-badge.png"
                   }
                   alt="football"
                   style={{
@@ -281,11 +281,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/club.png"
-                      : "../src/assets/club.png"
-                  }
+                  src={matchId ? "../../club.png" : "../club.png"}
                   alt="football"
                   style={{
                     width: "50px",
@@ -322,11 +318,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/stadium.png"
-                      : "../src/assets/stadium.png"
-                  }
+                  src={matchId ? "../../stadium.png" : "../stadium.png"}
                   alt="stadium"
                   style={{
                     width: "50px",
@@ -358,11 +350,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/timetable.png"
-                      : "../src/assets/timetable.png"
-                  }
+                  src={matchId ? "../../timetable.png" : "../timetable.png"}
                   alt="timetable"
                   style={{
                     width: "50px",
@@ -389,11 +377,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/refree.png"
-                      : "../src/assets/refree.png"
-                  }
+                  src={matchId ? "../../refree.png" : "../refree.png"}
                   alt="refree"
                   style={{
                     width: "50px",
@@ -419,11 +403,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/lineman.png"
-                      : "../src/assets/lineman.png"
-                  }
+                  src={matchId ? "../../lineman.png" : "../lineman.png"}
                   alt="lineman"
                   style={{
                     width: "50px",
@@ -449,11 +429,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/lineman.png"
-                      : "../src/assets/lineman.png"
-                  }
+                  src={matchId ? "../../lineman.png" : "../lineman.png"}
                   alt="lineman"
                   style={{
                     width: "50px",
@@ -480,11 +456,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/price.png"
-                      : "../src/assets/price.png"
-                  }
+                  src={matchId ? "../../price.png" : "../price.png"}
                   alt="price"
                   style={{
                     width: "50px",
@@ -511,11 +483,7 @@ export const CreateMatch = (props) => {
                 }}
               >
                 <img
-                  src={
-                    matchId
-                      ? "../../src/assets/add.png"
-                      : "../src/assets/add.png"
-                  }
+                  src={matchId ? "../../add.png" : "../add.png"}
                   alt="add"
                   style={{
                     width: "50px",

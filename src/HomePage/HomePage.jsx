@@ -1,8 +1,18 @@
 import { CssBaseline, Grid } from "@mui/material";
 import { Container } from "@mui/system";
+import { useEffect, useState } from "react";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 import NavBar from "../UtilsComponents/NavBar";
 const HomePage = () => {
-  return (
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <Grid
       container
       spacing={0}
@@ -27,7 +37,7 @@ const HomePage = () => {
           loop
           muted
           name="welcome-video"
-          src="/src/assets/welcome-video.mp4"
+          src="/welcome-video.mp4"
           style={{
             minWidth: "100%",
             minHeight: "100%",
@@ -45,7 +55,7 @@ const HomePage = () => {
         }}
       >
         <img
-          src="/src/assets/card1.png"
+          src="/card1.png"
           alt="card1"
           style={{
             minWidth: "100%",
@@ -63,7 +73,7 @@ const HomePage = () => {
         }}
       >
         <img
-          src="/src/assets/card2.png"
+          src="/card2.png"
           alt="card1"
           style={{
             minWidth: "100%",
@@ -82,7 +92,7 @@ const HomePage = () => {
         }}
       >
         <img
-          src="/src/assets/card3.png"
+          src="/card3.png"
           alt="card1"
           style={{
             minWidth: "100%",

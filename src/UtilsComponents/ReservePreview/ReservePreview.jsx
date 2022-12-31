@@ -5,10 +5,10 @@ const ReservePreview = ({ match }) => {
   const { home_team, away_team, date, name, ticket_price } = match;
   const first_code = countries
     .find((item) => item.name === home_team)
-    .code.toLowerCase();
+    ?.code.toLowerCase();
   const second_code = countries
     .find((item) => item.name === away_team)
-    .code.toLowerCase();
+    ?.code.toLowerCase();
   const firstImage = `https://flagcdn.com/${first_code}.svg`;
   const secondImage = `https://flagcdn.com/${second_code}.svg`;
   return (
@@ -16,7 +16,7 @@ const ReservePreview = ({ match }) => {
       <div className="match">
         <div className="match-header">
           <div className="match-tournament">
-            <img src="/src/assets/world-cup.png" />
+            <img src="/world-cup.png" />
             Fifa World Cup 2022
           </div>
           <div className="match-actions"></div>

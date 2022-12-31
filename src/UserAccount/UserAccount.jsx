@@ -4,6 +4,7 @@ import nationalties from "../UtilsComponents/nationalties";
 import TicketCard from "../UtilsComponents/TicketCard/TicketCard";
 import NavBar from "../UtilsComponents/NavBar";
 import { BASE_URL } from "../baseUrl";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 
 const pascalToUnderScore = (str) => {
   const words = str.split(" ");
@@ -84,6 +85,7 @@ const UserAccount = () => {
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({
     password: "",
     first_name: "",
@@ -106,11 +108,20 @@ const UserAccount = () => {
     );
     getUserTickets(userId, token).then((data) => setTickets(data));
   }, []);
-  return (
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <div
       className="full-page container-fluid"
       style={{
-        backgroundImage: `url("../src/assets/6.png")`,
+        backgroundImage: `url("../6.png")`,
         height: `calc(100vh + ${(tickets.length + 2) * 150}px)`,
       }}
     >
@@ -126,7 +137,7 @@ const UserAccount = () => {
         <div className="img-and-txt text-center">
           <img
             className="d-block mx-auto mb-4"
-            src="/src/assets/avatar.png"
+            src="/avatar.png"
             width="72"
             height="72"
           />
@@ -257,7 +268,7 @@ const UserAccount = () => {
             <h2 style={{ color: ourColors.background }}>Your Tickets</h2>
             <img
               className="d-block mx-auto mb-4"
-              src="/src/assets/tickets.png"
+              src="/tickets.png"
               width="72"
               height="72"
             />
@@ -270,6 +281,7 @@ const UserAccount = () => {
               display: "grid",
               gridTemplateColumns: `repeat(auto-fit, minmax(700px, 1fr))`,
               rowGap: "50px",
+              marginBottom: "50px",
             }}
           >
             {tickets.map((ticket) => {

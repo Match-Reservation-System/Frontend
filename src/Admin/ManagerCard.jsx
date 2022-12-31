@@ -92,12 +92,7 @@ export const ManagerCard = (props) => {
             margin: "0",
           }}
         >
-          <img
-            src="..\src\assets\user.png"
-            alt="manager"
-            width="100px"
-            height="100px"
-          />
+          <img src="../user.png" alt="manager" width="100px" height="100px" />
         </Grid>
         <Grid item xs={12} sm={6}>
           <p style={{ fontWeight: "bold", fontSize: "18px" }}>{props.name}</p>

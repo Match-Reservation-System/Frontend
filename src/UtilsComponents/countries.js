@@ -169,7 +169,7 @@ const countries = [
   {
     code: "KP",
     code3: "PRK",
-    name: "Korea (the Democratic People's Republic of)",
+    name: "South Korea",
     number: "408",
   },
   { code: "KR", code3: "KOR", name: "Korea (the Republic of)", number: "410" },
@@ -372,7 +372,7 @@ const countries = [
   {
     code: "US",
     code3: "USA",
-    name: "United States of America (the)",
+    name: "USA",
     number: "840",
   },
   { code: "UY", code3: "URY", name: "Uruguay", number: "858" },

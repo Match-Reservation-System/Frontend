@@ -45,7 +45,7 @@ export const Admin = ({ fetchUrl }) => {
   }, [fetchUrl]);
 
   return loading ? (
-    <LazyLoading loadingPath={"../src/assets/football.svg"} />
+    <LazyLoading loadingPath={"../football.svg"} />
   ) : (
     <>
       <NavBar />
