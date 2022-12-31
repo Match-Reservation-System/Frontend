@@ -1,8 +1,18 @@
 import { CssBaseline, Grid } from "@mui/material";
 import { Container } from "@mui/system";
+import { useEffect, useState } from "react";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 import NavBar from "../UtilsComponents/NavBar";
 const HomePage = () => {
-  return (
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <Grid
       container
       spacing={0}

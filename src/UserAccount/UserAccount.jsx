@@ -4,6 +4,7 @@ import nationalties from "../UtilsComponents/nationalties";
 import TicketCard from "../UtilsComponents/TicketCard/TicketCard";
 import NavBar from "../UtilsComponents/NavBar";
 import { BASE_URL } from "../baseUrl";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 
 const pascalToUnderScore = (str) => {
   const words = str.split(" ");
@@ -90,6 +91,7 @@ const UserAccount = () => {
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({
     password: "",
     first_name: "",
@@ -113,11 +115,21 @@ const UserAccount = () => {
     getUserTickets(userId, token).then((data) => setTickets(data));
     console.log("tickets", tickets);
   }, []);
-  return (
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading />
+  ) : (
     <div
       className="full-page container-fluid"
       style={{
         backgroundImage: `url("../6.png")`,
+        minHeight: "100vh",
       }}
     >
       <div className="nav-bar row mb-5">
@@ -271,6 +283,7 @@ const UserAccount = () => {
               display: "grid",
               gridTemplateColumns: "repeat(2, 1fr)",
               rowGap: "50px",
+              marginBottom: "50px",
             }}
           >
             {tickets.map((ticket) => {

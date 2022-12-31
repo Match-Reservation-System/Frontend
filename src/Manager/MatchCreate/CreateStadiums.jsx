@@ -1,6 +1,7 @@
 import { Button, Grid, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../../baseUrl";
+import { LazyLoading } from "../../LazyLoading/LazyLoading";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
 import CustomSelect from "../../UtilsComponents/CustomSelect";
@@ -14,6 +15,7 @@ export const CreateStadium = (props) => {
   const [rows, setRows] = useState("");
   const [seats, setSeats] = useState("");
   const [formErrors, setFormErrors] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const addStadium = async (e) => {
     try {
@@ -58,7 +60,15 @@ export const CreateStadium = (props) => {
     }
   };
 
-  return (
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading loadingPath="../../football.svg" />
+  ) : (
     <>
       <NavBar />
       <Grid
