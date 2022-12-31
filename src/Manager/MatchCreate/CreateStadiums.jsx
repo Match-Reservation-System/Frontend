@@ -85,6 +85,9 @@ export const CreateStadium = (props) => {
         justifyContent="center"
         alignItems="center"
         height={"100vh"}
+        style={{
+          backgroundImage: `url(../../1.jpg)`,
+        }}
       >
         <Grid item xs={12} sm={6}>
           <CenteredItem

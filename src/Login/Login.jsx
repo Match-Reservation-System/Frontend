@@ -38,18 +38,13 @@ function Login() {
       return false;
     }
 
-    if (
-      !password.match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-      )
-    ) {
+    if (password.length < 8) {
       setFormErrors({
         ...formErrors,
         email: { error: false, message: "" },
         password: {
           error: true,
-          message:
-            "Password must contain at least 8 characters and at least one number and one letter and one special character",
+          message: "Password must contain at least 8 characters.",
         },
       });
       return false;

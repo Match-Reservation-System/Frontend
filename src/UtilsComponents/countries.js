@@ -360,7 +360,7 @@ const countries = [
   {
     code: "GB",
     code3: "GBR",
-    name: "United Kingdom of Great Britain and Northern Ireland (the)",
+    name: "England",
     number: "826",
   },
   {

@@ -49,7 +49,14 @@ export const Admin = ({ fetchUrl }) => {
   ) : (
     <>
       <NavBar />
-      <Grid container justifyContent="center" sx={{ height: "100vh" }}>
+      <Grid
+        container
+        justifyContent="center"
+        sx={{
+          height: `calc(100vh + ${(managers.length + 2) * 80}px)`,
+          backgroundImage: "url('../1.jpg')",
+        }}
+      >
         <Grid
           item
           xs={12}
