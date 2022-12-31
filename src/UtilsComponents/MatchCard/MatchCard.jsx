@@ -26,13 +26,13 @@ const MatchCard = ({ match }) => {
     second_line_referee,
     name,
   } = match;
-  console.log(`match_id`, match_id);
+  console.log(`home_team`, home_team);
   const first_code = countries
     .find((item) => item.name === home_team)
-    .code.toLowerCase();
+    ?.code.toLowerCase();
   const second_code = countries
     .find((item) => item.name === away_team)
-    .code.toLowerCase();
+    ?.code.toLowerCase();
   const firstImage = `https://flagcdn.com/${first_code}.svg`;
   const secondImage = `https://flagcdn.com/${second_code}.svg`;
   return (

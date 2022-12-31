@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import ourColors from "../UtilsComponents/ourColors";
 import { useNavigate } from "react-router";
 import { LazyLoading } from "../LazyLoading/LazyLoading";
+import { Error } from "../Error/Error";
 
 Button;
 const getMatches = async () => {
@@ -27,6 +28,7 @@ const getMatches = async () => {
 const Matches = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
   useEffect(() => {
     getMatches().then((data) => setMatches(data));
   }, []);
@@ -41,6 +43,8 @@ const Matches = () => {
 
   return loading ? (
     <LazyLoading />
+  ) : userRole == "manager" && token == "undefined" ? (
+    <Error message="You aren't Verified Yet.Please Contact your adminstrator to complete verification process" />
   ) : (
     <div
       className="container-fluid"

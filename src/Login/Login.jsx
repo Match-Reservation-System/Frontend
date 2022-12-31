@@ -170,12 +170,7 @@ function Login() {
           </CenteredItem>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <img
-            src="src\assets\3.gif"
-            alt="loginbg"
-            width="100%"
-            height="100%"
-          />
+          <img src="./3.gif" alt="loginbg" width="100%" height="100%" />
         </Grid>
       </Grid>
     </>

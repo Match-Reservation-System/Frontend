@@ -31,7 +31,7 @@ const ReserveTicket = () => {
     <div
       className="container-fluid"
       style={{
-        background: `url("../1.jpg")`,
+        background: `url("../../1.jpg")`,
         minHeight: "100vh",
       }}
     >

@@ -1,6 +1,7 @@
 import { Button, Grid, MenuItem } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../../baseUrl";
+import { Error } from "../../Error/Error";
 import { LazyLoading } from "../../LazyLoading/LazyLoading";
 import CenteredItem from "../../UtilsComponents/CenteredItem";
 import CustomInput from "../../UtilsComponents/CustomeInput";
@@ -16,7 +17,8 @@ export const CreateStadium = (props) => {
   const [seats, setSeats] = useState("");
   const [formErrors, setFormErrors] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
   const addStadium = async (e) => {
     try {
       const token = localStorage.getItem("token");
@@ -27,6 +29,11 @@ export const CreateStadium = (props) => {
       }
       if (rows <= 0 || seats <= 0) {
         setFormErrors("Rows and Seats must be positive numbers");
+        return;
+      }
+
+      if (seats > 10) {
+        setFormErrors("Seats per row must be less than 10");
         return;
       }
 
@@ -68,6 +75,8 @@ export const CreateStadium = (props) => {
 
   return loading ? (
     <LazyLoading loadingPath="../../football.svg" />
+  ) : userRole == "manager" && token == "undefined" ? (
+    <Error message="You aren't Verified Yet.Please Contact your adminstrator to complete verification process" />
   ) : (
     <>
       <NavBar />
