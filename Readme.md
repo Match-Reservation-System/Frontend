@@ -1,7 +1,8 @@
-# Project Reserva
-<div align="center">
-![Reserva-logos](https://user-images.githubusercontent.com/59124058/210157407-28f25041-8fbb-4811-94f2-a3ccc2005ce4.jpg)
+# Reserva
+<div align="center" width="200px" height="200px">
+<img src="https://user-images.githubusercontent.com/62337087/210157454-0b966441-4655-4b2c-b9f1-f417b9fdf3f6.jpg"/ width="200px">
 </div>
+
 
 # Overview
 * Tickets reservation management system for FIFA word cup Qatar 2022.
