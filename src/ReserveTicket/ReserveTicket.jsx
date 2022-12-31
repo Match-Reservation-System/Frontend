@@ -5,6 +5,7 @@ import NavBar from "../UtilsComponents/NavBar";
 import SeatsPicker from "./SeatsPicker/SeatsPicker";
 import PurchaseCard from "./PurchaseCard/PurchaseCard";
 import { useParams } from "react-router";
+import { LazyLoading } from "../LazyLoading/LazyLoading";
 const getMatchById = async (match_id) => {
   const response = await fetch(`${BASE_URL}/guest/matches/${match_id}`, {
     method: "GET",
@@ -50,6 +51,7 @@ const ReserveTicket = () => {
   const [seats, setSeats] = useState([]);
   const [reservedSeats, setReservedSeats] = useState([]);
   const [selectedRowAndSeat, setSelectedRowAndSeat] = React.useState({});
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getMatchById(match_id).then((match) => setMatch(match));
     getReservedSeats(match_id).then((reservedSeats) => {
@@ -64,7 +66,16 @@ const ReserveTicket = () => {
       reservedSeats
     );
   }, [reservedSeats]);
-  return (
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  return loading ? (
+    <LazyLoading loadingPath="../../football.svg" />
+  ) : (
     <div
       className="container-fluid"
       style={{
