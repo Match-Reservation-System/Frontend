@@ -26,7 +26,6 @@ const MatchCard = ({ match }) => {
     second_line_referee,
     name,
   } = match;
-  console.log(`match_id`, match_id);
   const first_code = countries
     .find((item) => item.name === home_team)
     .code.toLowerCase();

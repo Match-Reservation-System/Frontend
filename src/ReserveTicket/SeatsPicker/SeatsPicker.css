@@ -75,7 +75,7 @@ ol {
   margin: 0 auto;
   display: flex;
   flex: 0 0 14.28571%;
-  max-width: 100px;
+  max-width: 80px;
   padding: 5px;
   position: relative;
 }

@@ -29,7 +29,7 @@ const cancelTicket = async (
 const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("token");
-  const { home_team, away_team, date, stadium_id, ticket_id } = ticket;
+  const { home_team, away_team, date, ticket_price, ticket_id } = ticket;
   const first_code = countries
     .find((item) => item.name === home_team)
     .code.toLowerCase();
@@ -39,7 +39,12 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
   const firstImage = `https://flagcdn.com/${first_code}.svg`;
   const secondImage = `https://flagcdn.com/${second_code}.svg`;
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{
+        width: "90%",
+      }}
+    >
       <div className="match">
         <div className="match-header">
           <div className="match-tournament">
@@ -67,6 +72,7 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
           <div className="column">
             <div className="match-details">
               <div className="match-date">{date.slice(0, 10)}</div>
+              <div className="match-date">{date.slice(11, 16)}</div>
               <div className="match-score">
                 <span className="match-score-number match-score-number--leading">
                   -
@@ -75,7 +81,7 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
                 <span className="match-score-number">-</span>
               </div>
               <div className="match-Stadium">
-                Stadium: <strong>{stadium_id} </strong>
+                price: <strong>{ticket_price} </strong>
               </div>
               <button
                 className="match-bet-place"

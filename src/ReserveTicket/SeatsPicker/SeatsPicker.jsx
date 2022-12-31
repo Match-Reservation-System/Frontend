@@ -2,19 +2,14 @@ import React from "react";
 import "./SeatsPicker.css";
 
 const SeatsPicker = ({
+  seats,
   stadium_name,
-  rows,
-  seatsPerRow,
   setOpen,
-  setRowAndSeat,
+  setSelectedRowAndSeat,
 }) => {
-  const [seats, setSeats] = React.useState(
-    Array.from({ length: rows }, () =>
-      Array.from({ length: seatsPerRow }, () => false)
-    )
-  );
   const onClick = (row, seat) => {
-    setRowAndSeat({ row, seat });
+    console.log(row, seat);
+    setSelectedRowAndSeat({ row, seat });
     setOpen(true);
   };
   return (
@@ -25,26 +20,28 @@ const SeatsPicker = ({
       </div>
       <div className="exit exit--front"></div>
       <ol className="cabin">
-        {seats.map((row, rowIndex) => (
-          <li className={`row row--${rowIndex + 1}`}>
-            <ol className="seats">
-              {row.map((seat, seatIndex) => (
-                <li
-                  className="seat"
-                  onClick={() => onClick(rowIndex, seatIndex)}
-                >
-                  <label
-                    forHtml={`${rowIndex}${seatIndex}`}
-                    className={!seat ? "not-selected" : "selected"}
-                  >
-                    {rowIndex + 1}
-                    {String.fromCharCode(65 + seatIndex)}
-                  </label>
-                </li>
-              ))}
-            </ol>
-          </li>
-        ))}
+        {seats &&
+          seats.map((row, rowIndex) => (
+            <li className={`row row--${rowIndex + 1}`}>
+              <ol className="seats">
+                {row &&
+                  row.map((seat, seatIndex) => (
+                    <li
+                      className="seat"
+                      onClick={() => onClick(rowIndex, seatIndex)}
+                    >
+                      <label
+                        forHtml={`${rowIndex}${seatIndex}`}
+                        className={!seat ? "not-selected" : "selected"}
+                      >
+                        {rowIndex + 1}
+                        {String.fromCharCode(65 + seatIndex)}
+                      </label>
+                    </li>
+                  ))}
+              </ol>
+            </li>
+          ))}
       </ol>
       <div className="exit exit--back"></div>
     </div>

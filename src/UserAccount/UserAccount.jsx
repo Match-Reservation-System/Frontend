@@ -11,19 +11,13 @@ const pascalToUnderScore = (str) => {
   return newWords.join("_");
 };
 
-const dummyTicket = {
-  home_team: "Egypt",
-  away_team: "Qatar",
-  date: "29/12/2022",
-  stadium_name: "Lusial",
-};
 const fields = [
   ["First Name", "Last Name"],
   ["Password", "Birth Date"],
 ];
 const updateUserData = async (user, userId, token, setUser, role) => {
   //TODO replace the alert
-  if (user.password.length < 6) {
+  if (user.password.length < 6 && user.password.length > 0) {
     alert("Password must be at least 6 characters");
     return;
   } else if (user.birth_date.length < 10) {
@@ -31,7 +25,7 @@ const updateUserData = async (user, userId, token, setUser, role) => {
     return;
   }
   for (const key in user) {
-    if (user[key] === "") {
+    if (user[key] === "" && key !== "password") {
       alert("All fields are required");
       return;
     }
@@ -81,7 +75,7 @@ const getUserTickets = async (userId, token) => {
   if (data.error) {
     return [];
   } else {
-    console.log("data tickets", data.tickets);
+    console.log("getUserTickets ~ data.tickets", data.tickets);
     return data.tickets;
   }
 };
@@ -111,20 +105,24 @@ const UserAccount = () => {
       })
     );
     getUserTickets(userId, token).then((data) => setTickets(data));
-    console.log("tickets", tickets);
   }, []);
   return (
     <div
       className="full-page container-fluid"
       style={{
         backgroundImage: `url("../src/assets/6.png")`,
-        height: "100vh",
+        height: `calc(100vh + ${(tickets.length + 2) * 150}px)`,
       }}
     >
       <div className="nav-bar row mb-5">
         <NavBar />
       </div>
-      <div className=" form-section-with-bg row d-flex flex-column justify-content-center align-items-center">
+      <div
+        className=" form-section-with-bg row d-flex flex-column justify-content-center align-items-center"
+        style={{
+          marginBottom: "100px",
+        }}
+      >
         <div className="img-and-txt text-center">
           <img
             className="d-block mx-auto mb-4"
@@ -267,10 +265,10 @@ const UserAccount = () => {
           <div
             className=" matches"
             style={{
-              width: "70%",
+              width: "80%",
               margin: "0 auto",
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
+              gridTemplateColumns: `repeat(auto-fit, minmax(700px, 1fr))`,
               rowGap: "50px",
             }}
           >

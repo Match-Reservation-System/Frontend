@@ -84,7 +84,7 @@ const App = () => {
         element: <Matches />,
       },
       {
-        path: "/matches/reserveTicket/:id",
+        path: "/matches/reserveTicket/:match_id",
         element: (
           <ProtectedRoutes requestedRole="fan">
             <ReserveTicket />

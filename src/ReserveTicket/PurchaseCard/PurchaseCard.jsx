@@ -1,20 +1,37 @@
-import { Box, Typography, TextField, Button } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import React from "react";
 import { BASE_URL } from "../../baseUrl";
+import ourColors from "../../UtilsComponents/ourColors";
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "400px",
   bgcolor: "background.paper",
   boxShadow: 24,
   pt: 2,
   px: 4,
   pb: 3,
 };
-const reserveTicket = async (token, match_id, row, seat) => {
+const reserveTicket = async (
+  token,
+  match_id,
+  row,
+  seat,
+  setOpen,
+  setReservedSeats,
+  creditCard,
+  pin
+) => {
+  if (creditCard.length < 8) {
+    alert("Credit card number must be at least 8 digits");
+    return;
+  } else if (pin.length < 4) {
+    alert("Pin must be 4 digits");
+    return;
+  }
   const response = await fetch(`${BASE_URL}/customer/fan/tickets/reserve`, {
     method: "POST",
     mode: "cors",
@@ -34,17 +51,19 @@ const reserveTicket = async (token, match_id, row, seat) => {
     return;
   } else {
     setOpen(false);
+    setReservedSeats((prev) => [...prev, { row, seat }]);
   }
 };
 const PurchaseCard = ({
   match_id,
   open,
   setOpen,
-  setCreditCard,
-  setPin,
-  rowAndSeat,
+  selectedRowAndSeat,
+  setReservedSeats,
 }) => {
   const token = localStorage.getItem("token");
+  const [creditCard, setCreditCard] = React.useState("");
+  const [pin, setPin] = React.useState("");
   return (
     <Modal
       open={open}
@@ -63,29 +82,40 @@ const PurchaseCard = ({
         <TextField
           id="outlined-basic"
           label="Credit Card"
-          onChange={(e) => setCreditCard(e.target.value)}
           style={{
             marginBottom: "10px",
             display: "block",
           }}
+          value={creditCard}
+          onChange={(e) => setCreditCard(e.target.value)}
         />
         <TextField
           id="outlined-basic"
           label="Pin"
-          onChange={(e) => setPin(e.target.value)}
           style={{
             marginBottom: "10px",
             display: "block",
           }}
+          value={pin}
+          onChange={(e) => setPin(e.target.value)}
         />
         <Button
           variant="text"
           onClick={() =>
-            reserveTicket(token, match_id, rowAndSeat.row, rowAndSeat.seat)
+            reserveTicket(
+              token,
+              match_id,
+              selectedRowAndSeat.row,
+              selectedRowAndSeat.seat,
+              setOpen,
+              setReservedSeats,
+              creditCard,
+              pin
+            )
           }
           style={{
             color: "white",
-            backgroundColor: "green",
+            backgroundColor: ourColors.primary,
           }}
         >
           Purchase
