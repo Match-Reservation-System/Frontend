@@ -118,6 +118,7 @@ const UserAccount = () => {
       className="full-page container-fluid"
       style={{
         backgroundImage: `url("../src/assets/6.png")`,
+        height: "100vh",
       }}
     >
       <div className="nav-bar row mb-5">
