@@ -41,6 +41,7 @@ const ReservePreview = ({ match }) => {
           <div className="column">
             <div className="match-details">
               <div className="match-date">{date.slice(0, 10)}</div>
+              <div className="match-date">{date.slice(11, 16)}</div>
               <div className="match-score">
                 <span className="match-score-number match-score-number--leading">
                   -

@@ -5,8 +5,8 @@ import NavBar from "../UtilsComponents/NavBar";
 import SeatsPicker from "./SeatsPicker/SeatsPicker";
 import PurchaseCard from "./PurchaseCard/PurchaseCard";
 import { useParams } from "react-router";
-const getMatchById = async (id) => {
-  const response = await fetch(`${BASE_URL}/guest/matches/${id}`, {
+const getMatchById = async (match_id) => {
+  const response = await fetch(`${BASE_URL}/guest/matches/${match_id}`, {
     method: "GET",
     mode: "cors",
     headers: {
@@ -16,17 +16,54 @@ const getMatchById = async (id) => {
   const data = await response.json();
   return data.match;
 };
+const getReservedSeats = async (match_id) => {
+  const response = await fetch(`${BASE_URL}/customer/match/${match_id}`, {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data.reserved_seats;
+};
+const updateSeatsByReservedSeats = (
+  rows,
+  seatsPerRow,
+  setSeats,
+  reservedSeats
+) => {
+  let seats = Array.from({ length: rows }, () =>
+    Array.from({ length: seatsPerRow > 10 ? 10 : seatsPerRow }, () => false)
+  );
+  if (reservedSeats) {
+    reservedSeats?.forEach((seat) => {
+      seats[seat?.row][seat?.seat] = true;
+    });
+    setSeats(seats);
+  }
+};
 const ReserveTicket = () => {
-  //get id from url
-  const { id } = useParams();
+  const { match_id } = useParams();
   const [match, setMatch] = useState(null);
   const [open, setOpen] = useState(false);
-  const [creditCard, setCreditCard] = React.useState("");
-  const [pin, setPin] = React.useState("");
-  const [rowAndSeat, setRowAndSeat] = React.useState({ row: 0, seat: 0 });
+  const [seats, setSeats] = useState([]);
+  const [reservedSeats, setReservedSeats] = useState([]);
+  const [selectedRowAndSeat, setSelectedRowAndSeat] = React.useState({});
   useEffect(() => {
-    getMatchById(id).then((data) => setMatch(data));
+    getMatchById(match_id).then((match) => setMatch(match));
+    getReservedSeats(match_id).then((reservedSeats) => {
+      setReservedSeats(reservedSeats);
+    });
   }, []);
+  useEffect(() => {
+    updateSeatsByReservedSeats(
+      match?.rows,
+      match?.seats_per_row,
+      setSeats,
+      reservedSeats
+    );
+  }, [reservedSeats]);
   return (
     <div
       className="container-fluid"
@@ -48,21 +85,23 @@ const ReserveTicket = () => {
       <div className="row">
         <div className="col-2 "></div>
         <div className="col-8">
-          <SeatsPicker
-            stadium_name={match?.stadium_name || "Cairo International Stadium"}
-            rows={10}
-            seatsPerRow={5}
-            setOpen={setOpen}
-            setRowAndSeat={setRowAndSeat}
-          />
+          {match && (
+            <SeatsPicker
+              seats={seats}
+              stadium_name={match.name}
+              setOpen={setOpen}
+              setSelectedRowAndSeat={setSelectedRowAndSeat}
+            />
+          )}
         </div>
         <div className="col-2 "></div>
       </div>
       <PurchaseCard
-        match_id={id}
+        match_id={match_id}
         open={open}
         setOpen={setOpen}
-        rowAndSeat={rowAndSeat}
+        selectedRowAndSeat={selectedRowAndSeat}
+        setReservedSeats={setReservedSeats}
       />
     </div>
   );

@@ -26,7 +26,6 @@ const MatchCard = ({ match }) => {
     second_line_referee,
     name,
   } = match;
-  console.log(`home_team`, home_team);
   const first_code = countries
     .find((item) => item.name === home_team)
     ?.code.toLowerCase();
@@ -65,6 +64,7 @@ const MatchCard = ({ match }) => {
           <div className="column">
             <div className="match-details">
               <div className="match-date">{date.slice(0, 10)}</div>
+              <div className="match-date">{date.slice(11, 16)}</div>
               <div className="match-score">
                 <span className="match-score-number match-score-number--leading">
                   -
