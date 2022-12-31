@@ -21,6 +21,7 @@ import CustomSelect from "../UtilsComponents/CustomSelect";
 import nationalties from "../UtilsComponents/nationalties";
 import { LazyLoading } from "../LazyLoading/LazyLoading";
 import ourColors from "../UtilsComponents/ourColors";
+import NavBar from "../UtilsComponents/NavBar";
 function Signup() {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -181,7 +182,7 @@ function Signup() {
   let navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token&&token!='undefined') {
+    if (token && token != "undefined") {
       navigate("/");
     }
     setTimeout(() => {
@@ -192,132 +193,152 @@ function Signup() {
   return loading ? (
     <LazyLoading />
   ) : (
-    <Grid container sx={{ height: "100vh", overflowY: "hidden", marginTop: 0 }}>
+    <>
+      <NavBar />
       <Grid
-        item
-        xs={12}
-        sm={6}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        container
+        sx={{ height: "90vh", overflowY: "hidden", marginTop: 0 }}
       >
-        <CenteredItem>
-          <h1>SIGNUP</h1>
-          <p>{serverError}</p>
-          <FormGroup
-            sx={{
-              alignContent: "center",
-              width: "100%",
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CenteredItem
+            style={{
+              paddingTop: "5%",
+              paddingBottom: "5%",
             }}
           >
-            <CustomInput
-              placeholder="Username"
-              value={username}
-              setValue={setUsername}
-              error={formErrors.username.error}
-              helperText={formErrors.username.message}
-            />
-            <CustomInput
-              placeholder="First Name"
-              value={firstName}
-              setValue={setFirstName}
-              error={formErrors.firstName.error}
-              helperText={formErrors.firstName.message}
-            />
-            <CustomInput
-              placeholder="Last Name"
-              value={lastName}
-              setValue={setLastName}
-              error={formErrors.lastName.error}
-              helperText={formErrors.lastName.message}
-            />
-            <CustomInput
-              placeholder="Email"
-              type="email"
-              value={email}
-              setValue={setEmail}
-              error={formErrors.email.error}
-              helperText={formErrors.email.message}
-            />
-            <CustomInput
-              placeholder="Password"
-              type="password"
-              value={password}
-              setValue={setPassword}
-              error={formErrors.password.error}
-              helperText={formErrors.password.message}
-            />
-            <CustomSelect
-              defaultValue="male"
-              value={gender}
-              setValue={setGender}
+            <h1>SIGNUP</h1>
+            <p>{serverError}</p>
+            <FormGroup
+              sx={{
+                alignContent: "center",
+                width: "100%",
+              }}
             >
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="female">Female</MenuItem>
-            </CustomSelect>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <MobileDatePicker
-                label="Date of Birth"
-                inputFormat="DD/MM/YYYY"
-                value={dateOfBirth}
-                onChange={(newValue) => {
-                  setDateOfBirth(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
+              <CustomInput
+                placeholder="Username"
+                value={username}
+                setValue={setUsername}
+                error={formErrors.username.error}
+                helperText={formErrors.username.message}
               />
-            </LocalizationProvider>
+              <CustomInput
+                placeholder="First Name"
+                value={firstName}
+                setValue={setFirstName}
+                error={formErrors.firstName.error}
+                helperText={formErrors.firstName.message}
+              />
+              <CustomInput
+                placeholder="Last Name"
+                value={lastName}
+                setValue={setLastName}
+                error={formErrors.lastName.error}
+                helperText={formErrors.lastName.message}
+              />
+              <CustomInput
+                placeholder="Email"
+                type="email"
+                value={email}
+                setValue={setEmail}
+                error={formErrors.email.error}
+                helperText={formErrors.email.message}
+              />
+              <CustomInput
+                placeholder="Password"
+                type="password"
+                value={password}
+                setValue={setPassword}
+                error={formErrors.password.error}
+                helperText={formErrors.password.message}
+              />
+              <CustomSelect
+                defaultValue="male"
+                value={gender}
+                setValue={setGender}
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+              </CustomSelect>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <MobileDatePicker
+                  label="Date of Birth"
+                  inputFormat="DD/MM/YYYY"
+                  value={dateOfBirth}
+                  onChange={(newValue) => {
+                    setDateOfBirth(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
 
-            <CustomSelect
-              sx={{
-                width: "50%",
-                marginTop: "2%",
-                marginBottom: "2%",
-              }}
-              defaultValue="role"
-              value={role}
-              setValue={setRole}
-            >
-              <MenuItem value="role">Role</MenuItem>
-              <MenuItem value="manager">Manager</MenuItem>
-              <MenuItem value="fan">Fan</MenuItem>
-            </CustomSelect>
-            <CustomSelect
-              sx={{
-                width: "50%",
-                marginTop: "2%",
-                marginBottom: "2%",
-              }}
-              defaultValue="nationalty"
-              value={nationalty}
-              setValue={setNationalty}
-            >
-              <MenuItem value="nationalty">Nationalty</MenuItem>
-              {nationalties.map((nationalty) => (
-                <MenuItem value={nationalty.nationality}>
-                  {nationalty.nationality}
-                </MenuItem>
-              ))}
-            </CustomSelect>
-            <Button
-              variant="contained"
-              sx={{
-                width: "60%",
-                marginTop: "2%",
-                backgroundColor: ourColors.primary10,
-                ":hover": { backgroundColor: ourColors.primary10 },
-              }}
-              onClick={(e) => handleSubmit(e)}
-            >
-              Signup
-            </Button>
-            <p style={{ marginTop: "2%", marginBottom: "2%" }}>
-              Already have an account? <Link to="/login">Login</Link>
-            </p>
-          </FormGroup>
-        </CenteredItem>
+              <CustomSelect
+                sx={{
+                  width: "50%",
+                  marginTop: "2%",
+                  marginBottom: "2%",
+                }}
+                defaultValue="role"
+                value={role}
+                setValue={setRole}
+              >
+                <MenuItem value="role">Role</MenuItem>
+                <MenuItem value="manager">Manager</MenuItem>
+                <MenuItem value="fan">Fan</MenuItem>
+              </CustomSelect>
+              <CustomSelect
+                sx={{
+                  width: "50%",
+                  marginTop: "2%",
+                  marginBottom: "2%",
+                }}
+                defaultValue="nationalty"
+                value={nationalty}
+                setValue={setNationalty}
+              >
+                <MenuItem value="nationalty">Nationalty</MenuItem>
+                {nationalties.map((nationalty) => (
+                  <MenuItem value={nationalty.nationality}>
+                    {nationalty.nationality}
+                  </MenuItem>
+                ))}
+              </CustomSelect>
+              <Button
+                variant="contained"
+                sx={{
+                  width: "60%",
+                  marginTop: "2%",
+                  backgroundColor: ourColors.primary10,
+                  ":hover": { backgroundColor: ourColors.primary10 },
+                }}
+                onClick={(e) => handleSubmit(e)}
+              >
+                Signup
+              </Button>
+              <p style={{ marginTop: "2%", marginBottom: "2%" }}>
+                Already have an account? <Link to="/login">Login</Link>
+              </p>
+            </FormGroup>
+          </CenteredItem>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <img
+            src="src\assets\3.gif"
+            alt="Signupbg"
+            width="100%"
+            height="100%"
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <img src="src\assets\3.gif" alt="Signupbg" width="100%" height="100%" />
-      </Grid>
-    </Grid>
+    </>
   );
 }
 

@@ -6,6 +6,7 @@ import { BASE_URL } from "../baseUrl";
 import { LazyLoading } from "../LazyLoading/LazyLoading";
 import CenteredItem from "../UtilsComponents/CenteredItem";
 import CustomInput from "../UtilsComponents/CustomeInput";
+import NavBar from "../UtilsComponents/NavBar";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -105,64 +106,79 @@ function Login() {
   return loading ? (
     <LazyLoading />
   ) : (
-    <Grid container sx={{ height: "100vh", overflowY: "hidden", marginTop: 0 }}>
+    <>
+      <NavBar />
       <Grid
-        item
-        xs={12}
-        sm={6}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        container
+        sx={{ height: "90vh", overflowY: "hidden", marginTop: 0 }}
       >
-        <CenteredItem
-          height="
-        40%"
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <h1>LOGIN</h1>
-          <p>{serverError}</p>
-          <FormGroup
-            sx={{
-              alignContent: "center",
-              width: "100%",
-            }}
+          <CenteredItem
+            height="
+        40%"
           >
-            <CustomInput
-              placeholder="Email"
-              type="email"
-              value={email}
-              setValue={setEmail}
-              error={formErrors.email.error}
-              helperText={formErrors.email.message}
-            />
-            <CustomInput
-              placeholder="Password"
-              type="password"
-              value={password}
-              setValue={setPassword}
-              error={formErrors.password.error}
-              helperText={formErrors.password.message}
-            />
-            <Button
-              variant="contained"
+            <h1>LOGIN</h1>
+            <p>{serverError}</p>
+            <FormGroup
               sx={{
-                width: "60%",
-                marginTop: "2%",
-                backgroundColor: "#b61c4a",
-                ":hover": { backgroundColor: "#b61c4a" },
+                alignContent: "center",
+                width: "100%",
               }}
-              onClick={handleSubmit}
             >
-              Login
-            </Button>
+              <CustomInput
+                placeholder="Email"
+                type="email"
+                value={email}
+                setValue={setEmail}
+                error={formErrors.email.error}
+                helperText={formErrors.email.message}
+              />
+              <CustomInput
+                placeholder="Password"
+                type="password"
+                value={password}
+                setValue={setPassword}
+                error={formErrors.password.error}
+                helperText={formErrors.password.message}
+              />
+              <Button
+                variant="contained"
+                sx={{
+                  width: "60%",
+                  marginTop: "2%",
+                  backgroundColor: "#b61c4a",
+                  ":hover": { backgroundColor: "#b61c4a" },
+                }}
+                onClick={handleSubmit}
+              >
+                Login
+              </Button>
 
-            <p style={{ marginTop: "2%" }}>
-              Don't have an account? <Link to="/signup">Signup</Link>
-            </p>
-          </FormGroup>
-        </CenteredItem>
+              <p style={{ marginTop: "2%" }}>
+                Don't have an account? <Link to="/signup">Signup</Link>
+              </p>
+            </FormGroup>
+          </CenteredItem>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <img
+            src="src\assets\3.gif"
+            alt="loginbg"
+            width="100%"
+            height="100%"
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        <img src="src\assets\3.gif" alt="loginbg" width="100%" height="100%" />
-      </Grid>
-    </Grid>
+    </>
   );
 }
 
