@@ -105,15 +105,25 @@ const MatchCard = ({ match }) => {
               </div>
               <div className="match-Stadium">
                 <img
-                  style={{ display: "inline", width: "50px", height: "50px" }}
+                  style={{ display: "inline", width: "25px", height: "25px" }}
                   src="../../red_chair.svg"
                 />
-                <strong>{reservedSeats}</strong>
+                <strong
+                  style={{
+                    color: "#ff0000",
+                  }}
+                >
+                  {reservedSeats}
+                </strong>
                 <img
-                  style={{ display: "inline", width: "50px", height: "50px" }}
+                  style={{ display: "inline", width: "25px", height: "25px" }}
                   src="../../green_chair.svg"
                 />
-                <strong>
+                <strong
+                  style={{
+                    color: "#00ff00",
+                  }}
+                >
                   {match?.rows * match?.seats_per_row - reservedSeats}
                 </strong>
               </div>

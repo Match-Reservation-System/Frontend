@@ -11,7 +11,6 @@ const pascalToUnderScore = (str) => {
   const newWords = words.map((word) => word.toLowerCase());
   return newWords.join("_");
 };
-
 const fields = [
   ["First Name", "Last Name"],
   ["Password", "Birth Date"],
@@ -123,7 +122,6 @@ const UserAccount = () => {
       setLoading(false);
     }, 1000);
   }, []);
-
   return loading ? (
     <LazyLoading />
   ) : (
@@ -131,7 +129,7 @@ const UserAccount = () => {
       className="full-page container-fluid"
       style={{
         backgroundImage: `url("../6.png")`,
-        height: `calc(100vh + ${(tickets.length + 2) * 150}px)`,
+        height: `calc(100vh + ${(tickets.length + 2) * 155}px)`,
       }}
     >
       <div className="nav-bar row mb-5">
@@ -323,5 +321,4 @@ const UserAccount = () => {
     </div>
   );
 };
-
 export default UserAccount;

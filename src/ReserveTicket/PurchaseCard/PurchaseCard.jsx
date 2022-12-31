@@ -26,6 +26,7 @@ const reserveTicket = async (
   pin,
   setServerError
 ) => {
+  setServerError("");
   if (creditCard.length !== 8) {
     setServerError("Credit Card must be 8 digits");
     return;
@@ -70,7 +71,12 @@ const PurchaseCard = ({
   return (
     <Modal
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => {
+        setOpen(false);
+        setServerError("");
+        setCreditCard("");
+        setPin("");
+      }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

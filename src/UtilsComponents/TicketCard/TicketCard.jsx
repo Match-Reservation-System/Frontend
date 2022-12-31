@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../../baseUrl";
 import countries from "../countries";
 import ourColors from "../ourColors";
@@ -42,6 +42,11 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
   const firstImage = `https://flagcdn.com/${first_code}.svg`;
   const secondImage = `https://flagcdn.com/${second_code}.svg`;
   const [serverError, setServerError] = useState("");
+  useEffect(() => {
+    setTimeout(() => {
+      setServerError("");
+    }, 5000);
+  }, [serverError]);
   return (
     <div
       className="container"
@@ -55,9 +60,9 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
             <img src="/world-cup.png" />
             Fifa World Cup 2022
           </div>
-          <h5 style={{ color: ourColors.primary, margin: "0 auto" }}>
+          <h6 style={{ color: ourColors.primary, margin: "0 auto" }}>
             {serverError}
-          </h5>
+          </h6>
           <div className="match-actions"></div>
         </div>
         <div className="match-content">
