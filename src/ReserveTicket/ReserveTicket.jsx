@@ -5,10 +5,7 @@ import NavBar from "../UtilsComponents/NavBar";
 import SeatsPicker from "./SeatsPicker/SeatsPicker";
 import PurchaseCard from "./PurchaseCard/PurchaseCard";
 import { useParams } from "react-router";
-<<<<<<< HEAD
-=======
 import { LazyLoading } from "../LazyLoading/LazyLoading";
->>>>>>> 195e58edc42826f9936a3d0ec08745f752eac977
 const getMatchById = async (match_id) => {
   const response = await fetch(`${BASE_URL}/guest/matches/${match_id}`, {
     method: "GET",
@@ -54,10 +51,7 @@ const ReserveTicket = () => {
   const [seats, setSeats] = useState([]);
   const [reservedSeats, setReservedSeats] = useState([]);
   const [selectedRowAndSeat, setSelectedRowAndSeat] = React.useState({});
-<<<<<<< HEAD
-=======
   const [loading, setLoading] = useState(true);
->>>>>>> 195e58edc42826f9936a3d0ec08745f752eac977
   useEffect(() => {
     getMatchById(match_id).then((match) => setMatch(match));
     getReservedSeats(match_id).then((reservedSeats) => {
@@ -72,13 +66,6 @@ const ReserveTicket = () => {
       reservedSeats
     );
   }, [reservedSeats]);
-<<<<<<< HEAD
-  return (
-    <div
-      className="container-fluid"
-      style={{
-        background: `url("../../src/assets/1.jpg")`,
-=======
 
   useEffect(() => {
     setTimeout(() => {
@@ -93,7 +80,6 @@ const ReserveTicket = () => {
       className="container-fluid"
       style={{
         background: `url("../../1.jpg")`,
->>>>>>> 195e58edc42826f9936a3d0ec08745f752eac977
         minHeight: "100vh",
       }}
     >

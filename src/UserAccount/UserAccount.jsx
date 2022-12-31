@@ -3,9 +3,9 @@ import ourColors from "../UtilsComponents/ourColors";
 import nationalties from "../UtilsComponents/nationalties";
 import TicketCard from "../UtilsComponents/TicketCard/TicketCard";
 import NavBar from "../UtilsComponents/NavBar";
-import { BASE_URL } from "../baseUrl";
 import { LazyLoading } from "../LazyLoading/LazyLoading";
-
+import ChangePasswordModal from "./ChangePasswordModal";
+import { BASE_URL } from "../baseUrl";
 const pascalToUnderScore = (str) => {
   const words = str.split(" ");
   const newWords = words.map((word) => word.toLowerCase());
@@ -16,18 +16,23 @@ const fields = [
   ["First Name", "Last Name"],
   ["Password", "Birth Date"],
 ];
-const updateUserData = async (user, userId, token, setUser, role) => {
-  //TODO replace the alert
-  if (user.password.length < 6 && user.password.length > 0) {
-    alert("Password must be at least 6 characters");
-    return;
-  } else if (user.birth_date.length < 10) {
-    alert("Birth Date must be in the format of dd/mm/yyyy");
+const updateUserData = async (
+  user,
+  userId,
+  token,
+  setUser,
+  role,
+  setServerError
+) => {
+  console.log("user in updateUser", user);
+  setServerError("");
+  if (user.birth_date.length < 10) {
+    setServerError("Birth date must be in the format YYYY-MM-DD");
     return;
   }
   for (const key in user) {
-    if (user[key] === "" && key !== "password") {
-      alert("All fields are required");
+    if (user[key] === "") {
+      setServerError("All fields must be filled");
       return;
     }
   }
@@ -43,11 +48,17 @@ const updateUserData = async (user, userId, token, setUser, role) => {
   // TODO print if there is an error
   const data = await res.json();
   if (data.error) {
-    alert(data.error);
+    setServerError(data.error);
     return;
   } else {
     getUserData(userId, token, role).then((data) =>
-      setUser({ ...data, password: "" })
+      setUser({
+        first_name: data.first_name,
+        last_name: data.last_name,
+        birth_date: data.birth_date,
+        gender: data.gender,
+        nationality: data.nationality,
+      })
     );
   }
 };
@@ -76,7 +87,6 @@ const getUserTickets = async (userId, token) => {
   if (data.error) {
     return [];
   } else {
-    console.log("getUserTickets ~ data.tickets", data.tickets);
     return data.tickets;
   }
 };
@@ -86,8 +96,8 @@ const UserAccount = () => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
   const [loading, setLoading] = useState(true);
+  const [serverError, setServerError] = useState("");
   const [user, setUser] = useState({
-    password: "",
     first_name: "",
     last_name: "",
     birth_date: "",
@@ -100,7 +110,6 @@ const UserAccount = () => {
       setUser({
         first_name: data.first_name,
         last_name: data.last_name,
-        password: "",
         birth_date: data.birth_date,
         gender: data.gender,
         nationality: data.nationality,
@@ -108,7 +117,7 @@ const UserAccount = () => {
     );
     getUserTickets(userId, token).then((data) => setTickets(data));
   }, []);
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -143,13 +152,21 @@ const UserAccount = () => {
           />
           <h2 style={{ color: ourColors.background }}>Account Settings</h2>
           <h3 style={{ color: ourColors.background }}>{role}</h3>
+          <h4 style={{ color: ourColors.background }}>{serverError}</h4>
         </div>
         <div className="form col-6">
           <form
             className="needs-validation"
             onSubmit={(e) => {
               e.preventDefault();
-              updateUserData(user, userId, token, setUser, role);
+              updateUserData(
+                user,
+                userId,
+                token,
+                setUser,
+                role,
+                setServerError
+              );
             }}
           >
             {fields.map((field) => (
@@ -162,17 +179,27 @@ const UserAccount = () => {
                     {field[0]}
                   </label>
                   <input
-                    //if Password make type password else text
-                    type={field[0] === "Password" ? "password" : "text"}
+                    type={field[0] === "Password" ? "button" : "text"}
                     className="form-control"
                     id="{field[0]}"
-                    value={user[pascalToUnderScore(field[0])]}
+                    value={
+                      field[0] !== "Password"
+                        ? user[pascalToUnderScore(field[0])]
+                        : "Change Password"
+                    }
                     onChange={(e) => {
                       setUser({
                         ...user,
                         [pascalToUnderScore(field[0])]: e.target.value,
                       });
                     }}
+                    onClick={
+                      field[0] === "Password"
+                        ? () => {
+                            setOpen(true);
+                          }
+                        : null
+                    }
                   />
                 </div>
                 <div className="col-md-6 mb-3">
@@ -216,13 +243,9 @@ const UserAccount = () => {
                   onChange={(e) =>
                     setUser({ ...user, Nationality: e.target.value })
                   }
+                  value={user.nationality}
                 >
-                  <option value="Afghan">Afghan</option>
-                  {nationalties.map((nationalty) => (
-                    <option value={nationalty.nationality}>
-                      {nationalty.nationality}
-                    </option>
-                  ))}
+                  <option value={user.nationality}>{user.nationality}</option>
                 </select>
               </div>
               <div className="col-md-6 mb-3">
@@ -241,9 +264,9 @@ const UserAccount = () => {
                     height: "36px",
                   }}
                   onChange={(e) => setUser({ ...user, Gender: e.target.value })}
+                  value={user.gender}
                 >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value={user.gender}>{user.gender}</option>
                 </select>
               </div>
             </div>
@@ -296,6 +319,7 @@ const UserAccount = () => {
           </div>
         </div>
       )}
+      <ChangePasswordModal open={open} setOpen={setOpen} />
     </div>
   );
 };

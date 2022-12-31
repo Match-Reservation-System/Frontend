@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { BASE_URL } from "../../baseUrl";
 import countries from "../countries";
-import "./TicketCard.css"; //TODO use stadium id to get the stadium name
-
+import ourColors from "../ourColors";
+import "./TicketCard.css";
 const cancelTicket = async (
   ticket_id,
   token,
   setTickets,
   userId,
-  getUserTickets
+  getUserTickets,
+  setServerError
 ) => {
+  setServerError("");
   const res = await fetch(`${BASE_URL}/customer/fan/tickets/${ticket_id}`, {
     method: "DELETE",
     mode: "cors",
@@ -20,7 +23,7 @@ const cancelTicket = async (
   const data = await res.json();
 
   if (data.error) {
-    alert(data.error);
+    setServerError(data.error);
   } else {
     getUserTickets(userId, token).then((data) => setTickets(data));
   }
@@ -38,6 +41,7 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
     ?.code.toLowerCase();
   const firstImage = `https://flagcdn.com/${first_code}.svg`;
   const secondImage = `https://flagcdn.com/${second_code}.svg`;
+  const [serverError, setServerError] = useState("");
   return (
     <div
       className="container"
@@ -51,6 +55,9 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
             <img src="/world-cup.png" />
             Fifa World Cup 2022
           </div>
+          <h5 style={{ color: ourColors.primary, margin: "0 auto" }}>
+            {serverError}
+          </h5>
           <div className="match-actions"></div>
         </div>
         <div className="match-content">
@@ -91,7 +98,8 @@ const TicketCard = ({ ticket, setTickets, getUserTickets }) => {
                     token,
                     setTickets,
                     userId,
-                    getUserTickets
+                    getUserTickets,
+                    setServerError
                   )
                 }
               >
