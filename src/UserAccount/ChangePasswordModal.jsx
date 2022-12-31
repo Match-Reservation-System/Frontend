@@ -1,8 +1,8 @@
 import { Box, TextField, Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import React from "react";
-import { BASE_URL } from "../../baseUrl";
-import ourColors from "../../UtilsComponents/ourColors";
+import { BASE_URL } from "../baseUrl";
+import ourColors from "../UtilsComponents/ourColors";
 const style = {
   position: "absolute",
   top: "50%",
@@ -15,57 +15,45 @@ const style = {
   px: 4,
   pb: 3,
 };
-const reserveTicket = async (
+const updateUserPassword = async (
+  password,
+  confirmPassword,
+  userId,
   token,
-  match_id,
-  row,
-  seat,
   setOpen,
-  setReservedSeats,
-  creditCard,
-  pin,
   setServerError
 ) => {
-  if (creditCard.length !== 8) {
-    setServerError("Credit Card must be 8 digits");
+  setServerError("");
+  if (password.length < 8) {
+    setServerError("Password must be at least 8 characters");
     return;
-  } else if (pin.length < 4) {
-    setServerError("Pin must be at least 4 digits");
+  } else if (password !== confirmPassword) {
+    setServerError("Passwords do not match");
     return;
   }
-  const response = await fetch(`${BASE_URL}/customer/fan/tickets/reserve`, {
-    method: "POST",
+  const res = await fetch(`${BASE_URL}/customer/fan/${userId}`, {
+    method: "PUT",
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({
-      match_id: match_id,
-      row: row,
-      seat: seat,
-    }),
+    body: JSON.stringify({ password }),
   });
-  const data = await response.json();
+  console.log("change password res", res);
+  const data = await res.json();
   if (data.error) {
     setServerError(data.error);
     return;
   } else {
-    setServerError("");
     setOpen(false);
-    setReservedSeats((prev) => [...prev, { row, seat }]);
   }
 };
-const PurchaseCard = ({
-  match_id,
-  open,
-  setOpen,
-  selectedRowAndSeat,
-  setReservedSeats,
-}) => {
+const ChangePasswordModal = ({ open, setOpen }) => {
   const token = localStorage.getItem("token");
-  const [creditCard, setCreditCard] = React.useState("");
-  const [pin, setPin] = React.useState("");
+  const userId = localStorage.getItem("userid");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const [serverError, setServerError] = React.useState("");
   return (
     <Modal
@@ -85,36 +73,33 @@ const PurchaseCard = ({
         <p style={{ color: "red" }}>{serverError}</p>
         <TextField
           id="outlined-basic"
-          label="Credit Card"
+          label="New Password"
           style={{
             marginBottom: "10px",
             display: "block",
           }}
-          value={creditCard}
-          onChange={(e) => setCreditCard(e.target.value)}
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
         />
         <TextField
           id="outlined-basic"
-          label="Pin"
+          label="Confirm Password"
           style={{
             marginBottom: "10px",
             display: "block",
           }}
-          value={pin}
-          onChange={(e) => setPin(e.target.value)}
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <Button
           variant="text"
           onClick={() =>
-            reserveTicket(
+            updateUserPassword(
+              newPassword,
+              confirmPassword,
+              userId,
               token,
-              match_id,
-              selectedRowAndSeat.row,
-              selectedRowAndSeat.seat,
               setOpen,
-              setReservedSeats,
-              creditCard,
-              pin,
               setServerError
             )
           }
@@ -123,11 +108,11 @@ const PurchaseCard = ({
             backgroundColor: ourColors.primary,
           }}
         >
-          Purchase
+          Change Password
         </Button>
       </Box>
     </Modal>
   );
 };
 
-export default PurchaseCard;
+export default ChangePasswordModal;
