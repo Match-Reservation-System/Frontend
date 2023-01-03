@@ -6,7 +6,7 @@
 
 # Overview
 
-- Tickets reservation management system for FIFA word cup Qatar 2022.
+- Tickets reservation management system for FIFA world cup Qatar 2022.
 
 # Built With
 
@@ -72,7 +72,3 @@
 ### Delete users
 
 ![delete](https://user-images.githubusercontent.com/59124058/210157359-2ea8b00f-8487-4c92-9fa7-0e385a8c81f2.png)
-
-# Demo
-
-<video src="./public/reserva.mp4" controls preload></video>
